@@ -95,7 +95,22 @@ class Admin extends MY_Controller {
         public function layout($area = NULL) {
             $data = new stdClass();
             if($area) {
-                
+                switch ($area) {
+                    case 'content-types':
+                        $this->content_types();
+                    break;
+                    case 'menus':
+                        $this->menus();
+                    break;
+                    case 'themes':
+                        $this->themes();
+                    break;
+                    case 'widgets':
+                        $this->layout_menu();
+                    break;
+                    default:
+                        break;
+                }
             }
             else {
                 $data->head_title = t('Administration');
@@ -103,6 +118,23 @@ class Admin extends MY_Controller {
                 $data = $this->node->prepare('layout', $data);
             }
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
+        }
+        public function layout_menu() {
+            $data->head_title = t('Administration');
+            $data->title = t('Layout');
+            $data = $this->node->prepare('layout', $data);
+        }
+        public function content_types() {
+            
+        }
+        public function menus() {
+            
+        }
+        public function themes() {
+            
+        }
+        public function widgets() {
+            
         }
         public function modules() {
             $data = new stdClass();

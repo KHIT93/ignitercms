@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'mbp';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -64,6 +64,21 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+$db['mbp']['hostname'] = 'localhost';
+$db['mbp']['username'] = 'root';
+$db['mbp']['password'] = 'root';
+$db['mbp']['database'] = 'ignitercms';
+$db['mbp']['dbdriver'] = 'mysql';
+$db['mbp']['dbprefix'] = '';
+$db['mbp']['pconnect'] = TRUE;
+$db['mbp']['db_debug'] = TRUE;
+$db['mbp']['cache_on'] = FALSE;
+$db['mbp']['cachedir'] = '';
+$db['mbp']['char_set'] = 'utf8';
+$db['mbp']['dbcollat'] = 'utf8_general_ci';
+$db['mbp']['swap_pre'] = '';
+$db['mbp']['autoinit'] = TRUE;
+$db['mbp']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

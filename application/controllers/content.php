@@ -123,7 +123,7 @@ class Content extends MY_Controller {
                     unset($postdata['index']);
                     unset($postdata['follow']);
                 }
-                unset($postdata['content_add_submit']);
+                unset($postdata['content_edit_submit']);
                 $postdata['last_updated'] = date("Y-m-d");
                 $this->db->where('pid', $postdata['pid']);
                 if($this->db->update('pages', $postdata)) {
@@ -156,7 +156,18 @@ class Content extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
         }
         private function _delete_submit() {
-            
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules($this->appforms->getValidationRules('content_delete'));
+            if($this->form_validation->run($this)) {
+                if($this->db->delete('pages', array('pid' => $this->uri->segment(2)))) {
+                    if($this->db->delete('url_alias', array('source' => 'content/'.$this->uri->segment(2)))) {
+                        set_message(t('THe page has been deleted'), 'success');
+                    }
+                    else {
+                        set_message(t('The page has been deleted, however, the URL\'s could not be removed. Please delete them manually'), 'warning');
+                    }
+                }
+            }
         }
 }
 

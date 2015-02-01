@@ -156,6 +156,46 @@ class Mdl_Admin extends Mdl_Content {
         return $form;
     }
     private function _prepare_admin_layout() {
+        $output = t('Please choose an action below').'<hr>';
+        $output .= '<div class="list-group">';
+        $menu = array(
+            array(
+                'title' => t('Content types'),
+                'description' => t('Manage different types of content for use on the website'),
+                'link' => 'content-types'
+            ),
+            array(
+                'title' => t('Menus'),
+                'description' => t('Manage menus and their links'),
+                'link' => 'menus'
+            ),
+            array(
+                'title' => t('Themes'),
+                'description' => t('Change the appearance of your website by choosing a theme'),
+                'link' => 'themes'
+            ),
+            array(
+                'title' => t('Widgets'),
+                'description' => t('Give life to your site by adding widgets to different sections of the page'),
+                'link' => 'widgets'
+            )
+        );
+        foreach($menu as $item) {
+            $output .= anchor(base_url().'admin/layout/'.$item['link'], heading($item['title'], 4, 'class="list-group-item-heading"').'<p>'.$item['description'].'</p>', array('class' => 'list-group-item'));
+        }
+        $output .= '</div>';
+        return $output;
+    }
+    private function _prepare_admin_layout_content_types() {
+        
+    }
+    private function _prpare_admin_layout_menus() {
+        
+    }
+    private function _prepare_admin_layout_themes() {
+        
+    }
+    private function _prepare_admin_layout_widgets() {
         
     }
     private function _prepare_admin_modules() {
