@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Grid - Ace Admin</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+                <!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="assets/font-awesome/4.2.0/css/font-awesome.min.css" />
+                
+		<!-- page specific plugin styles -->
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="assets/fonts/fonts.googleapis.com.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+		<style>
+                    /* styling the grid page's grid elements */
+                    .center {
+                            text-align: center;
+                    }
+                    .center [class*="col-"] {
+                            margin-top: 2px;
+                            margin-bottom: 2px;
+
+                            position: relative;
+                            text-overflow: ellipsis;
+                    }
+                    .center [class*="col-"]  div{
+                      position: relative;
+                      z-index: 2;
+
+                            padding-top: 4px;
+                            padding-bottom: 4px;
+
+                      display: block;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+
+                      width: 100%;
+                    }
+                    .center [class*="col-"]  div span{
+                      position: relative;
+                      z-index: 2;
+                    }
+                    .center [class*="col-"] div:before {
+                            display: block;
+                            content: "";
+
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            z-index: 1;
+
+                            border: 1px solid #DDD;
+                    }
+
+                    .center [class*="col-"] div:hover:before {
+                            background-color: #FCE6A6;
+                            border-color: #EFD27A;
+                    }
+		</style>
+
+		<!-- ace settings handler -->
+		<script src="assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="no-skin">
+		<!-- NAVBAR -->
+            <div class="main-container" id="main-container">
+                <script type="text/javascript">
+                    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+                </script>
+
+                <!-- SIDEBAR -->
+
+                <div class="main-content">
+                    <div class="main-content-inner">
+                        <!-- BREADCRUMB -->
+
+                        <!-- PAGE -->
+                    </div>
+                </div><!-- /.main-content -->
+
+                <div class="footer">
+                    <div class="footer-inner">
+                        <div class="footer-content">
+                            <span class="bigger-120">
+                                <span class="blue bolder">Ace</span>
+                                Application &copy; 2013-2014
+                            </span>
+
+                                &nbsp; &nbsp;
+                            <span class="action-buttons">
+                                <a href="#">
+                                    <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                                </a>
+
+                                <a href="#">
+                                    <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                                </a>
+
+                                <a href="#">
+                                    <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+                </a>
+            </div><!-- /.main-container -->
+
+            <!-- basic scripts -->
+
+            <!--[if !IE]> -->
+            <script src="assets/js/jquery.2.1.1.min.js"></script>
+
+            <!-- <![endif]-->
+
+            <!--[if IE]>
+<script src="assets/js/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+            <!--[if !IE]> -->
+            <script type="text/javascript">
+                window.jQuery || document.write("<script src='assets/js/jquery.min.js'>"+"<"+"/script>");
+            </script>
+
+            <!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+        <script type="text/javascript">
+            if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+        </script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!-- ace scripts -->
+        <script src="assets/js/ace-elements.min.js"></script>
+        <script src="assets/js/ace.min.js"></script>
+
+        <!-- inline scripts related to this page -->
+    </body>
+</html>

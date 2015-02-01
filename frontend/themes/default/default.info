@@ -1,0 +1,23 @@
+name = Default
+description = Default CMS Theme
+version = CORE_VERSION
+kernel = 4.x
+screenshot = screenshot.jpg
+;Sections
+sections[top] = 'Top'
+sections[navigation] = 'Navigation'
+sections[sidebar_first] = 'Primary sidebar'
+sections[content] = 'Primary content'
+sections[sidebar_second] = 'Secondary sidebar'
+sections[footer] = 'Footer'
+;Stylesheets
+styles[screen][] = css/bootstrap-theme.min.css
+styles[screen][] = css/style.css
+;JavaScript
+;scripts[] = js/bootstrap.min.js
+;Sample external assets integration
+;ext_stylesheets[screen][] = https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css
+;ext_scripts[] = https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js
+;Sample exclude core assets
+;exclude_stylesheets[screen][] = APPPATH/themes/default/bootstrap-theme.min.css
+;exclude_scripts[] = APPPATH/themes/default/jquery.min.js

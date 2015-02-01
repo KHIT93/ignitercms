@@ -1,0 +1,16 @@
+name = Default Administration
+description = Default CMS Administration Theme
+version = CORE_VERSION
+kernel = 4.x
+screenshot = screenshot.jpg
+;Sections
+sections[navigation] = 'Navigation'
+sections[sidebar_first] = 'Primary sidebar'
+sections[content] = 'Primary content'
+sections[footer] = 'Footer'
+;Stylesheets
+styles[screen][] = assets/fonts/fonts.googleapis.com.css
+styles[screen][] = assets/css/ace.min.css
+;JavaScript
+scripts[] = assets/js/ace-elements.min.js
+scripts[] = assets/js/ace.min.js
