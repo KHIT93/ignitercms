@@ -245,7 +245,7 @@ class Mdl_Admin extends Mdl_Content {
         return $output;
     }
     private function _prepare_admin_layout_widgets() {
-        
+        //To do
     }
     private function _prepare_admin_modules() {
         
@@ -253,6 +253,12 @@ class Mdl_Admin extends Mdl_Content {
     private function _prepare_admin_users() {
         
     }
+    private function _prepare_admin_users_roles() {
+        
+    }
+    private function _prepare_admin_users_permissions() {
+        
+    } 
     private function _prepare_admin_settings() {
         
     }
