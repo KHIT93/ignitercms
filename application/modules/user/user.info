@@ -1,0 +1,3 @@
+name = User
+description = Enables the usage of login and registration
+dependencies[] = system
