@@ -90,7 +90,7 @@ class Mdl_Admin extends Mdl_Content {
         return sidebar_traverse($menu, 'nav nav-list', true);
     }
     private function _prepare_admin_dashboard() {
-        
+        //To do
     }
     private function _prepare_admin_content() {
         $data = $this->db->get('pages')->result();
@@ -187,13 +187,62 @@ class Mdl_Admin extends Mdl_Content {
         return $output;
     }
     private function _prepare_admin_layout_content_types() {
-        
+        //To do
     }
     private function _prpare_admin_layout_menus() {
-        
+        //To do
     }
     private function _prepare_admin_layout_themes() {
-        
+        if(isset($this->uri->segment(5))) {
+            $this->db->where('property', 'site_theme');
+            if($this->db->update('config', array('contents' => $this->uri->segment(4)))) {
+                set_message(t('The theme <i>%theme</i> has been applied', array('%page' => $this->uri->segment(4))), 'success');
+            }
+            else {
+                set_message(t('Something went wrong and the theme could not be applied. Please see the error log for details'), 'error');
+            }
+        }
+        $this->load->helper('directory');
+        $data = array();
+        foreach (directory_map('frontend/themes') as $folder => $content) {
+            $data[$folder] = 'frontend/themes/'.$folder.'/'.$folder.'.info';
+        }
+        foreach (directory_map('site/themes') as $folder => $content) {
+            if(isset($data[$folder])) {
+                $data['site_'.$folder] = 'site/themes/'.$folder.'/'.$folder.'.info';
+            }
+            else {
+                $data[$folder] = 'site/themes/'.$folder.'/'.$folder.'.info';
+            }
+        }
+        $output = '<table>'
+                . '<thead>'
+                . '<tr>'
+                . '<th></th>'
+                . '<th></th>'
+                . '</tr>'
+                . '</thead>'
+                . '<tobdy>';
+        foreach ($data as $folder => $info_file) {
+            $info_data = parse_info_file($info_file);
+            $output .= '<tr>';
+            $output .= '<td>'
+                    . '<img src="'.$info_data['screenshot'].'">'
+                    . '</td>'
+                    . '<td>'
+                    . heading($info_data['name'], 4)
+                    . '<p>'.$info_data['description'].'</p>'
+                    . '</td>'
+                    . '</tr>';
+            $output .= '<tr>'
+                    . '<td>'
+                    . anchor(base_url().'admin/themes/'.$folder.'/apply', t('Apply theme'), 'class="btn btn-xs btn-default"')
+                    . '</td>'
+                    . '</tr>';
+        }
+        $output .= '</tbody>'
+                . '</table>';
+        return $output;
     }
     private function _prepare_admin_layout_widgets() {
         

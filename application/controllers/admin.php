@@ -97,16 +97,16 @@ class Admin extends MY_Controller {
             if($area) {
                 switch ($area) {
                     case 'content-types':
-                        $this->content_types();
+                        $data = $this->content_types();
                     break;
                     case 'menus':
-                        $this->menus();
+                        $data = $this->menus();
                     break;
                     case 'themes':
-                        $this->themes();
+                        $data = $this->themes();
                     break;
                     case 'widgets':
-                        $this->layout_menu();
+                        $data = $this->layout_menu();
                     break;
                     default:
                         break;
@@ -131,6 +131,10 @@ class Admin extends MY_Controller {
             
         }
         public function themes() {
+            $data = new stdClass();
+            $data->head_title = t('Theme management');
+            $data->title = t('Themes');
+            return $this->node->prepare('layout_themes', $data);
             
         }
         public function widgets() {
