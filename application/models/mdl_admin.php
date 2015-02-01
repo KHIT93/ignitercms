@@ -150,7 +150,8 @@ class Mdl_Admin extends Mdl_Content {
         return $form;
     }
     private function _prepare_admin_content_delete() {
-        $form = $this->load->library('form', $this->appforms->getForm('content_delete'))->render();
+        $form = '<p>'.t('Are you sure that you want to delete <i>%page</i>?', array('%page' => $this->db->select('title')->from('pages')->where('pid', $this->uri->segment(2))->get()->result()[0]->title)).'</p>'."\n";
+        $form .= $this->load->library('form', $this->appforms->getForm('content_delete'))->render();
         
         return $form;
     }

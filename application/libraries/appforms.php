@@ -126,7 +126,7 @@ class Appforms {
             )
         );
         $this->_forms['content_add'] = array(
-            'name' => 'user_login',
+            'name' => 'content_add',
             '#permission' => 'any',
             '#elements' => array(
                 array(
@@ -269,7 +269,7 @@ class Appforms {
             )
         );
         $this->_forms['content_edit'] = array(
-            'name' => 'user_login',
+            'name' => 'content_edit',
             '#permission' => 'any',
             '#elements' => array(
                 array(
@@ -401,8 +401,8 @@ class Appforms {
                 ),
                 array(
                     'type' => 'submit',
-                    'name' => 'content_add_submit',
-                    'content' => t('Add content'),
+                    'name' => 'content_edit_submit',
+                    'content' => t('Edit content'),
                     'class' => 'btn btn-sm btn-primary',
                     'wrapper' => false
                 ),
@@ -415,7 +415,30 @@ class Appforms {
                 )
             )
         );
-        
+        $this->_forms['content_delete'] = array(
+            'name' => 'content_add',
+            '#permission' => 'any',
+            '#elements' => array(
+                array(
+                    'type' => 'hidden',
+                    'pid' => $this->_CI->uri->segment(2)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'content_delete_submit',
+                    'content' => t('Delete'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/content',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
         //Form validation rules
         $this->_form_rules['admin_login'] = array(
             array(

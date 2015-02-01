@@ -43,6 +43,7 @@ class Form {
             else if($element['type'] == 'hidden') {
                 unset($element['type']);
                 $output .= form_hidden($element);
+                $element['type'] = 'hidden';
             }
             else if($element['type'] == 'password') {
                 $output .= form_password($element);
