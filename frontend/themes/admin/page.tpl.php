@@ -28,20 +28,20 @@
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="admin/settings">
+                            <a href="<?php print base_url(); ?>admin/settings">
                                 <i class="ace-icon fa fa-cog"></i>
                                 Settings
                             </a>
                         </li>
                         <li>
-                            <a href="user">
+                            <a href="<?php print base_url(); ?>user">
                                 <i class="ace-icon fa fa-user"></i>
                                 Profile
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="user/logout">
+                            <a href="<?php print base_url(); ?>user/logout">
                             <i class="ace-icon fa fa-power-off"></i>
                             Logout
                             </a>

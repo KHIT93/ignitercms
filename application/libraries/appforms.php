@@ -127,7 +127,7 @@ class Appforms {
         );
         $this->_forms['content_add'] = array(
             'name' => 'content_add',
-            '#permission' => 'any',
+            '#permission' => 'admin_access_content_add',
             '#elements' => array(
                 array(
                     'type' => 'text',
@@ -270,7 +270,7 @@ class Appforms {
         );
         $this->_forms['content_edit'] = array(
             'name' => 'content_edit',
-            '#permission' => 'any',
+            '#permission' => 'admin_access_content_edit',
             '#elements' => array(
                 array(
                     'type' => 'text',
@@ -416,8 +416,8 @@ class Appforms {
             )
         );
         $this->_forms['content_delete'] = array(
-            'name' => 'content_add',
-            '#permission' => 'any',
+            'name' => 'content_delete',
+            '#permission' => 'admin_access_content_delete',
             '#elements' => array(
                 array(
                     'type' => 'hidden',
@@ -439,6 +439,131 @@ class Appforms {
                 )
             )
         );
+        $this->_forms['menus_add'] = array(
+            'name' => 'menus_add',
+            '#permission' => 'admin_access_layout_menus_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'name',
+                    'class' => 'form-control',
+                    'value' => set_value('name'),
+                    'placeholder' => t('Menu name'),
+                    'label' => array(
+                        'title' => t('Menu name'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the name of your menu. This will only be displayed in the administration')
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'description',
+                    'class' => 'form-control',
+                    'value' => set_value('description'),
+                    'placeholder' => t('Description'),
+                    'label' => array(
+                        'title' => t('Description'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in a description of your menu. This will only be displayed in the administration')
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_add',
+                    'content' => t('Add menu'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['menus_edit'] = array(
+            'name' => 'menus_edit',
+            '#permission' => 'admin_access_layout_menus_edit',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'name',
+                    'class' => 'form-control',
+                    'value' => set_value('name'),
+                    'placeholder' => t('Menu name'),
+                    'label' => array(
+                        'title' => t('Menu name'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the name of your menu. This will only be displayed in the administration')
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'description',
+                    'class' => 'form-control',
+                    'value' => set_value('description'),
+                    'placeholder' => t('Description'),
+                    'label' => array(
+                        'title' => t('Description'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in a description of your menu. This will only be displayed in the administration')
+                ),
+                array(
+                    'type' => 'hidden',
+                    'mid' => $this->_CI->uri->segment(4)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_edit',
+                    'content' => t('Add menu'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['menus_delete'] = array(
+            'name' => 'content_delete',
+            '#permission' => 'admin_access_layout_menus_delete',
+            '#elements' => array(
+                array(
+                    'type' => 'hidden',
+                    'mid' => $this->_CI->uri->segment(4)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_delete_submit',
+                    'content' => t('Delete'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        
         //Form validation rules
         $this->_form_rules['admin_login'] = array(
             array(
@@ -491,6 +616,18 @@ class Appforms {
                 'field' => 'pid',
                 'label' => t('Unique page identifier'),
                 'rules' => 'required|xss_clean'
+            )
+        );
+        $this->_form_rules['menus_add'] = array(
+            array(
+                'field' => 'name',
+                'label' => t('Name'),
+                'rules' => 'required|xss_clean'
+            ),
+            array(
+                'field' => 'description',
+                'label' => t('Description'),
+                'rules' => 'xss_clean'
             )
         );
     }

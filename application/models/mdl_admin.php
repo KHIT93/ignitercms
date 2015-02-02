@@ -189,11 +189,79 @@ class Mdl_Admin extends Mdl_Content {
     private function _prepare_admin_layout_content_types() {
         //To do
     }
-    private function _prpare_admin_layout_menus() {
-        //To do
+    private function _prepare_admin_layout_menus() {
+        $data = $this->db->get('menus')->result();
+        $output = anchor(base_url().'admin/layout/menus/add', '<i class="ace-icon fa fa-plus"></i>'.t('Add menu'), 'class="btn btn-sm btn-info"')
+                . '<div class="hr hr-18 dotted"></div>';
+        $output .= '<table class="table table-striped table-bordered table-hover">'
+                . '<thead>'
+                . '<tr>'
+                . '<th>'.t('Name').'</th>'
+                . '<th class="hidden-xs">'.t('Description').'</th>'
+                . '<th>'.t('Actions').'</th>'
+                . '</tr>'
+                . '</thead>'
+                . '<tbody>';
+        foreach ($data as $menu) {
+            $output .= '<tr>'
+                    . '<td>'.anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links', $menu->name).'</td>'
+                    . '<td class="hidden-xs">'.$menu->description.'</td>'
+                    . '<td style="text-align:right;">'
+                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
+                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links', t('View links'), 'class="btn btn-xs btn-info"').' '
+                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' '
+                    . '</td>'
+                    . '</tr>';
+        }
+        $output .= '</tbody>'
+                . '</table>';
+        return $output;
+    }
+    private function _prepare_admin_layout_menus_add() {
+        if($_POST) {
+            $this->_prepare_admin_layout_menus_add_submit();
+            redirect(base_url().'admin/layout/menus');
+        }
+        $form = $this->load->library('form', $this->appforms->getForm('menus_add'))->render();
+        
+        return $form;
+    }
+    private function _prepare_admin_layout_menus_add_submit() {
+        $postdata['name'] = $this->input->post('name', TRUE);
+        $postdata['description'] = $this->input->post('description', TRUE);
+        if($this->db->insert('menus', $postdata)) {
+            set_message(t('The new menu <i>%menu</i> has been created', array('%menu' => $postdata['name'])), 'success');
+        }
+        else {
+            set_message(t('The new menu was not created. Please see the error log for details'), 'error');
+        }
+    }
+    private function _prepare_admin_layout_menus_edit() {
+        $_POST = $this->db->select('*')->from('menus')->where('mid', $this->uri->segment(4))->get()->result_array()[0];
+        $form = $this->load->library('form', $this->appforms->getForm('menus_edit'))->render();
+        
+        return $form;
+    }
+    private function _prepare_admin_layout_menus_links() {
+        
+    }
+    private function _prepare_admin_layout_menus_links_add() {
+        
+    }
+    private function _prepare_admin_layout_menus_links_edit() {
+        
+    }
+    private function _prepare_admin_layout_menus_links_delete() {
+        
+    }
+    private function _prepare_admin_layout_menus_delete() {
+        $form = $this->load->library('form', $this->appforms->getForm('menus_delete'))->render();
+        
+        return $form;
     }
     private function _prepare_admin_layout_themes() {
-        if(isset($this->uri->segment(5))) {
+        $segment = $this->uri->segment(5);
+        if(isset($segment) && !is_null($segment)) {
             $this->db->where('property', 'site_theme');
             if($this->db->update('config', array('contents' => $this->uri->segment(4)))) {
                 set_message(t('The theme <i>%theme</i> has been applied', array('%page' => $this->uri->segment(4))), 'success');
@@ -201,6 +269,7 @@ class Mdl_Admin extends Mdl_Content {
             else {
                 set_message(t('Something went wrong and the theme could not be applied. Please see the error log for details'), 'error');
             }
+            //redirect(base_url().'admin/layout/themes');
         }
         $this->load->helper('directory');
         $data = array();
@@ -215,7 +284,7 @@ class Mdl_Admin extends Mdl_Content {
                 $data[$folder] = 'site/themes/'.$folder.'/'.$folder.'.info';
             }
         }
-        $output = '<table>'
+        $output = '<table class="table table-striped table-bordered table-hover">'
                 . '<thead>'
                 . '<tr>'
                 . '<th></th>'

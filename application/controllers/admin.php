@@ -128,7 +128,35 @@ class Admin extends MY_Controller {
             
         }
         public function menus() {
-            
+            $data = new stdClass();
+            $data->head_title = t('Menus');
+            $data->title = t('Menus');
+            $area = $this->uri->segment(4);
+            $action = $this->uri->segment(5);
+            if(isset($area) && !is_null($area)) {
+                if($area == 'add') {
+                    return $this->node->prepare('layout_menus_add', $data);
+                }
+                else {
+                    switch ($action) {
+                        case 'edit':
+                            return $this->node->prepare('layout_menus_edit', $data);
+                        break;
+                        case 'delete':
+                            return $this->node->prepare('layout_menus_delete', $data);
+                        break;
+                        case 'links':
+                            return $this->node->prepare('layout_menus_links', $data);
+                        break;
+                        default:
+                            return $this->node->prepare('layout_menus', $data);
+                        break;
+                    }
+                }
+            }
+            else {
+                return $this->node->prepare('layout_menus', $data);
+            }
         }
         public function themes() {
             $data = new stdClass();
