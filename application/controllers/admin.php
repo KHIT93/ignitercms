@@ -20,7 +20,7 @@ class Admin extends MY_Controller {
         public function __construct() {
             parent::__construct();
             //$this->load->library('admin');
-            if($this->uri->segment(2) == 'login') {
+            /*if($this->uri->segment(2) == 'login') {
                 $this->load->model('mdl_admin_login', 'node');
             }
             else {
@@ -30,7 +30,7 @@ class Admin extends MY_Controller {
                 else {
                     $this->load->model('mdl_admin_login', 'node');
                 }
-            }
+            }*/
         }
         public function index()
 	{   
@@ -42,6 +42,7 @@ class Admin extends MY_Controller {
             }
 	}
         public function login() {
+            $this->load->model('mdl_admin_login', 'node');
             if($_POST) {
                 //validate, submit and redirect
                 $this->_login_submit();
@@ -79,6 +80,7 @@ class Admin extends MY_Controller {
             }
         }
         public function dashboard() {
+            $this->load->model('mdl_admin', 'node');
             $data = new stdClass();
             $data->head_title = t('Administration');
             $data->title = t('Dashboard');
@@ -86,6 +88,7 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function content() {
+            $this->load->model('mdl_admin_content', 'node');
             $data = new stdClass();
             $data->head_title = t('Content Management');
             $data->title = t('Content');
@@ -93,6 +96,7 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function layout($area = NULL) {
+            $this->load->model('mdl_admin_layout', 'node');
             $data = new stdClass();
             if($area) {
                 switch ($area) {
@@ -211,12 +215,14 @@ class Admin extends MY_Controller {
             }
         }
         public function modules() {
+            $this->load->model('mdl_admin_modules', 'node');
             $data = new stdClass();
             $data->title = t('Modules');
             $data = $this->node->prepare('modules', $data);
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function users() {
+            $this->load->model('mdl_admin_users', 'node');
             $data = new stdClass();
             $data->head_title = t('User Management');
             $data->title = t('Users');
@@ -224,12 +230,14 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function settings() {
+            $this->load->model('mdl_admin_settings', 'node');
             $data = new stdClass();
             $data->title = t('Settings');
             $data = $this->node->prepare('settings', $data);
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function reports($report = NULL) {
+            $this->load->model('mdl_admin_reports', 'node');
             $data = new stdClass();
             $data->title = t('Reports');
             $data = $this->node->prepare('reports', $data);

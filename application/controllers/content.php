@@ -54,7 +54,7 @@ class Content extends MY_Controller {
                 }
                 $this->config->config['force_admin_theme'] = TRUE;
                 //Renders the add content form
-                $this->load->model('mdl_admin', 'node');
+                $this->load->model('mdl_admin_content', 'node');
                 $data = new stdClass();
                 $data->head_title = t('Content Management');
                 $data->title = t('Content');
@@ -100,7 +100,7 @@ class Content extends MY_Controller {
                 }
                 $this->config->config['force_admin_theme'] = TRUE;
                 //Renders the edit content form
-                $this->load->model('mdl_admin', 'node');
+                $this->load->model('mdl_admin_content', 'node');
 
                 $data = new stdClass();
                 $data->head_title = t('Edit content');
@@ -148,7 +148,7 @@ class Content extends MY_Controller {
             }
             $this->config->config['force_admin_theme'] = TRUE;
             //Renders the delete content confirmation page
-            $this->load->model('mdl_admin', 'node');
+            $this->load->model('mdl_admin_content', 'node');
             $data = new stdClass();
             $data->head_title = t('Content Management');
             $data->title = t('Delete <i>%page</i>', array('%page' => $this->db->select('title')->from('pages')->where('pid', $this->uri->segment(2))->get()->result()[0]->title));
