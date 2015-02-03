@@ -540,7 +540,7 @@ class Appforms {
             )
         );
         $this->_forms['menus_delete'] = array(
-            'name' => 'content_delete',
+            'name' => 'menus_delete',
             '#permission' => 'admin_access_layout_menus_delete',
             '#elements' => array(
                 array(
@@ -557,6 +557,193 @@ class Appforms {
                 array(
                     'type' => 'link',
                     'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['menus_links_add'] = array(
+            'name' => 'menus_links_add',
+            '#permission' => 'admin_access_layout_menus_links_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'title',
+                    'class' => 'form-control',
+                    'value' => set_value('title'),
+                    'placeholder' => t('Title'),
+                    'label' => array(
+                        'title' => t('Title'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the tile of your menu item. This title will be displayed in the menu')
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'link',
+                    'class' => 'form-control',
+                    'value' => set_value('link'),
+                    'placeholder' => t('Destination'),
+                    'label' => array(
+                        'title' => t('Destination'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the destination for this menu item. The destination is where the visitor will end when they click the menu item')
+                ),
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'position',
+                    'default_value' => set_value('parent', 50),
+                    'options' => range(-50, 50)
+                ),
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'parent',
+                    'default_value' => set_value('parent', 0),
+                    'options' => menu_structure_as_strng_array($this->_CI->uri->segment(4))
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_links_add_submit',
+                    'content' => t('Add menu item'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['menus_links_edit'] = array(
+            'name' => 'menus_links_edit',
+            '#permission' => 'admin_access_layout_menus_links_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'title',
+                    'class' => 'form-control',
+                    'value' => set_value('title'),
+                    'placeholder' => t('Title'),
+                    'label' => array(
+                        'title' => t('Title'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the tile of your menu item. This title will be displayed in the menu')
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'link',
+                    'class' => 'form-control',
+                    'value' => set_value('link'),
+                    'placeholder' => t('Destination'),
+                    'label' => array(
+                        'title' => t('Destination'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the destination for this menu item. The destination is where the visitor will end when they click the menu item')
+                ),
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'position',
+                    'default_value' => set_value('parent', 50),
+                    'options' => range(-50, 50)
+                ),
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'parent',
+                    'default_value' => set_value('parent', 0),
+                    'options' => menu_structure_as_strng_array($this->_CI->uri->segment(4))
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_links_edit_submit',
+                    'content' => t('Save changes'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['menus_links_delete'] = array(
+            'name' => 'menus_links_delete',
+            '#permission' => 'admin_access_layout_menus_delete',
+            '#elements' => array(
+                array(
+                    'type' => 'hidden',
+                    'mid' => $this->_CI->uri->segment(6)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'menus_links_delete_submit',
+                    'content' => t('Delete'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/menus',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['widgets_add'] = array(
+            'name' => 'widgets_add',
+            '#permission' => 'admin_access_layout_widgets_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'title',
+                    'placeholder' => t('Title'),
+                    'value' => set_value('title'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Title'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<label>'.t('Content').'</label>',
+                ),
+                array(
+                    'type' => 'textarea',
+                    'name' => 'content',
+                    'class' => 'ckeditor',
+                    'value' => set_value('content')
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'widgets_add_submit',
+                    'content' => t('Save'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/widgets',
                     'value' => t('Cancel'),
                     '#attr' => 'class="btn btn-sm btn-default"',
                     'wrapper' => false
@@ -618,7 +805,7 @@ class Appforms {
                 'rules' => 'required|xss_clean'
             )
         );
-        $this->_form_rules['menus_add'] = array(
+        $this->_form_rules['menus'] = array(
             array(
                 'field' => 'name',
                 'label' => t('Name'),
@@ -628,6 +815,18 @@ class Appforms {
                 'field' => 'description',
                 'label' => t('Description'),
                 'rules' => 'xss_clean'
+            )
+        );
+        $this->_form_rules['menus_links'] = array(
+            array(
+                'field' => 'title',
+                'label' => t('Title'),
+                'rules' => 'required|xss_clean'
+            ),
+            array(
+                'field' => 'link',
+                'label' => t('Destination'),
+                'rules' => 'required|xss_clean'
             )
         );
     }

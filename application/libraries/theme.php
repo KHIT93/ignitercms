@@ -25,6 +25,19 @@ class Theme {
             return 'frontend/themes/default';
         }
     }
+    public function path_to_specifc_theme($theme) {
+        if(is_dir('frontend/themes/'.$theme)) {
+            //Theme is in core
+            return 'frontend/themes/'.$theme;
+        }
+        else if(is_dir('/site/themes/'.$theme)) {
+            //Theme is from 3rd party
+            return '/site/themes/'.$theme;
+        }
+        else {
+            return false;
+        }
+    }
     public function tpl_path($tpl_name) {
         //returns path for correct tpl-file to use
         if(file_exists($this->path_to_theme().'/'.$tpl_name.'.tpl.php') && $this->current() != 'default') {

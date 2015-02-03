@@ -1,0 +1,3 @@
+name = Widgets
+description = Enables the usage of widgets to generate either static or dynamic content
+dependencies[] = system

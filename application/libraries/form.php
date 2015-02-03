@@ -49,7 +49,7 @@ class Form {
                 $output .= form_password($element);
             }
             else if($element['type'] == 'dropdown') {
-                $output .= form_dropdown($element['name'], $element['#options'], $element['#selected']);
+                $output .= form_dropdown($element['name'], $element['options'], ((isset($element['default_value']) ? $element['default_value'] : NULL)));
             }
             else if($element['type'] == 'textarea') {
                 $output .= form_textarea($element);

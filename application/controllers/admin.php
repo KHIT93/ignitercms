@@ -106,7 +106,7 @@ class Admin extends MY_Controller {
                         $data = $this->themes();
                     break;
                     case 'widgets':
-                        $data = $this->layout_menu();
+                        $data = $this->widgets();
                     break;
                     default:
                         break;
@@ -146,7 +146,7 @@ class Admin extends MY_Controller {
                             return $this->node->prepare('layout_menus_delete', $data);
                         break;
                         case 'links':
-                            return $this->node->prepare('layout_menus_links', $data);
+                            return $this->_menu_links($data);
                         break;
                         default:
                             return $this->node->prepare('layout_menus', $data);
@@ -158,6 +158,26 @@ class Admin extends MY_Controller {
                 return $this->node->prepare('layout_menus', $data);
             }
         }
+        private function _menu_links($data) {
+            $link_action = $this->uri->segment(6);
+            if($link_action == 'add') {
+                return $this->node->prepare('layout_menus_links_add', $data);
+            }
+            else {
+                $link_action = $this->uri->segment(7);
+                switch ($link_action) {
+                    case 'edit':
+                        return $this->node->prepare('layout_menus_links_edit', $data);
+                    break;
+                    case 'delete':
+                        return $this->node->prepare('layout_menus_links_delete', $data);
+                    break;
+                    default:
+                        return $this->node->prepare('layout_menus_links', $data);
+                    break;
+                }
+            }
+        }
         public function themes() {
             $data = new stdClass();
             $data->head_title = t('Theme management');
@@ -166,7 +186,29 @@ class Admin extends MY_Controller {
             
         }
         public function widgets() {
-            
+            $data = new stdClass();
+            $data->title = t('Widgets');
+            $area = $this->uri->segment(4);
+            if(is_numeric($area)) {
+                $action = $this->uri->segment(5);
+                switch ($action) {
+                    case 'edit':
+                        return $this->node->prepare('layout_widgets_edit', $data);
+                    break;
+                    case 'edit':
+                        return $this->node->prepare('layout_widgets_edit', $data);
+                    break;
+                    default:
+                        return $this->node->prepare('layout_widgets', $data);
+                    break;
+                }
+            }
+            else if($area == 'add') {
+                return $this->node->prepare('layout_widgets_add', $data);
+            }
+            else {
+                return $this->node->prepare('layout_widgets', $data);
+            }
         }
         public function modules() {
             $data = new stdClass();

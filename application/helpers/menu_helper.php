@@ -57,3 +57,15 @@ if(!function_exists('add_redirect')) {
         }
     }
 }
+if(!function_exists('menu_structure_as_strng_array')) {
+    function menu_structure_as_strng_array($mid) {
+        $CI =& get_instance();
+        $menu = $CI->db->select('*')->from('menu_links')->where('mid', $mid)->get()->result();
+        $output = array();
+        $output[0] = '-- '.t('Choose parent menu item').' --';
+        foreach ($menu as $item) {
+            $output[$item->mlid] = $item->title;
+        }
+        return $output;
+    }
+}

@@ -64,9 +64,9 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['mbp']['hostname'] = 'localhost';
-$db['mbp']['username'] = 'root';
-$db['mbp']['password'] = 'root';
+$db['mbp']['hostname'] = 'mysql-srv1.khit.dev';
+$db['mbp']['username'] = 'ignitercms';
+$db['mbp']['password'] = 'ignitercms';
 $db['mbp']['database'] = 'ignitercms';
 $db['mbp']['dbdriver'] = 'mysql';
 $db['mbp']['dbprefix'] = '';
