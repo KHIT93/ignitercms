@@ -750,6 +750,73 @@ class Appforms {
                 )
             )
         );
+        $this->_forms['widgets_edit'] = array(
+            'name' => 'widgets_edit',
+            '#permission' => 'admin_access_layout_widgets_edit',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'title',
+                    'placeholder' => t('Title'),
+                    'value' => set_value('title'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Title'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<label>'.t('Content').'</label>',
+                ),
+                array(
+                    'type' => 'textarea',
+                    'name' => 'content',
+                    'class' => 'ckeditor',
+                    'value' => set_value('content')
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'widgets_edit_submit',
+                    'content' => t('Save'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/widgets',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['widgets_delete'] = array(
+            'name' => 'widgets_delete',
+            '#permission' => 'admin_access_layout_widgets_delete',
+            '#elements' => array(
+                array(
+                    'type' => 'hidden',
+                    'mid' => $this->_CI->uri->segment(6)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'widgets_delete_submit',
+                    'content' => t('Delete'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/layout/widgets',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
         
         //Form validation rules
         $this->_form_rules['admin_login'] = array(

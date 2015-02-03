@@ -297,7 +297,8 @@ class Mdl_Admin_Layout extends Mdl_Admin {
             foreach ($missing as $widget) {
                 $output .= '<tr>'
                         . '<td style="padding-left: 2em;">'.$widget->title.'</td>'
-                        . '<td>'.  form_dropdown('section', parse_info_file($this->theme->path_to_specifc_theme($this->configuration->get('site_theme')).'/'.$this->configuration->get('site_theme').'.info')['sections']).'</td>'
+                        . '<td>'.form_hidden(array('wid['.$widget->wid.']' => $widget->wid))
+                        . form_dropdown('section['.$widget->wid.']', parse_info_file($this->theme->path_to_specifc_theme($this->configuration->get('site_theme')).'/'.$this->configuration->get('site_theme').'.info')['sections']).'</td>'
                         . '<td style="text-align:right;">'
                         . anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
                         . (($widget->type == 'simple') ? anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' ' : '')
@@ -331,8 +332,8 @@ class Mdl_Admin_Layout extends Mdl_Admin {
             foreach ($data as $key => $widget) {
                 $output .= '<tr>'
                         . '<td style="padding-left: 2em;">'.$widget->title.'</td>'
-                        . '<td style="text-align:center;">'.form_hidden(array('wid' => $widget->wid))
-                        . form_dropdown('section', parse_info_file($this->theme->path_to_specifc_theme($this->configuration->get('site_theme')).'/'.$this->configuration->get('site_theme').'.info')['sections'], $widget->section).'</td>'
+                        . '<td style="text-align:center;">'.form_hidden(array('wid['.$widget->wid.']' => $widget->wid))
+                        . form_dropdown('section['.$widget->wid.']', parse_info_file($this->theme->path_to_specifc_theme($this->configuration->get('site_theme')).'/'.$this->configuration->get('site_theme').'.info')['sections'], $widget->section).'</td>'
                         . '<td style="text-align:right;">'
                         . anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
                         . (($widget->type == 'simple') ? anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' ' : '')
@@ -356,9 +357,9 @@ class Mdl_Admin_Layout extends Mdl_Admin {
     private function _prepare_admin_layout_widgets_submit() {
         $postdata = $this->input->post(NULL, TRUE);
         unset($postdata['widgets_position_submit']);
-        foreach ($postdata as $data) {
-            $this->db->where('wid', $data['wid']);
-            if(!$this->db->update('widgets', array('section' => $data['section']))) {
+        foreach ($postdata as $key => $data) {
+            $this->db->where('wid', $postdata[$key]['wid']);
+            if(!$this->db->update('widgets', array('section' => $postdata[$key]['section']))) {
                 set_message(t('The widget <i>%widget</i> could not be updated', array('%widget' => $this->db->select('title')->from('widgets')->where('wid', $data['wid'])->get()->result()[0]->title)), 'error');
             }
         }
@@ -388,7 +389,7 @@ class Mdl_Admin_Layout extends Mdl_Admin {
             $this->_prepare_admin_layout_widgets_edit_submit();
             redirect(base_url().'admin/layout/widgets');
         }
-        $_POST = $this->db->get_where('widgets', array('wid' => $this->uri->segment(4)))->result()[0];
+        $_POST = $this->db->get_where('widgets', array('wid' => $this->uri->segment(4)))->result_array()[0];
         $form = $this->load->library('form', $this->appforms->getForm('widgets_edit'))->render();
         $this->wysiwyg->init();
         return $form;
@@ -406,7 +407,7 @@ class Mdl_Admin_Layout extends Mdl_Admin {
     }
     protected function _prepare_admin_layout_widgets_delete() {
         if($_POST) {
-            $this->_prepare_admin_layout_widgets_edit_submit();
+            $this->_prepare_admin_layout_widgets_delete_submit();
             redirect(base_url().'admin/layout/widgets');
         }
         $form = $this->load->library('form', $this->appforms->getForm('widgets_delete'))->render();
