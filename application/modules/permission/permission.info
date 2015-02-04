@@ -1,4 +1,5 @@
 name = Permission management
-name = Allows management of user permissions and access rights
+description = Allows management of user permissions and access rights
 dependencies[] = system
 dependencies[] = user
+config = admin/users/permissions

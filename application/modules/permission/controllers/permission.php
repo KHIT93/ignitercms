@@ -19,6 +19,10 @@ class Permission extends MY_Controller {
         //Remove permission
     }
     
+    public function config() {
+        //Demo function
+    }
+    
     public function check($permission = NULL) {
         //Check if a user has the chosen permission
         if($permission) {

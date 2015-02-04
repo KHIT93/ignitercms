@@ -92,22 +92,4 @@ class Mdl_Admin extends Mdl_Content {
     private function _prepare_admin_dashboard() {
         //To do
     }
-    private function _prepare_admin_modules() {
-        
-    }
-    private function _prepare_admin_users() {
-        
-    }
-    private function _prepare_admin_users_roles() {
-        
-    }
-    private function _prepare_admin_users_permissions() {
-        
-    } 
-    private function _prepare_admin_settings() {
-        
-    }
-    private function _prepare_admim_reports() {
-        
-    }
 }
