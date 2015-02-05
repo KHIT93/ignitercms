@@ -6,6 +6,7 @@ class Appforms {
     private $_form_rules = array();
     public function __construct() {
         $this->_CI =& get_instance();
+        $this->_CI->load->helper('user');
         $this->_forms['admin_login'] = array(
             'name' => 'admin_login',
             '#permission' => 'any',
@@ -253,6 +254,10 @@ class Appforms {
                     )
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'content_add_submit',
                     'content' => t('Add content'),
@@ -400,6 +405,10 @@ class Appforms {
                     'pid' => $this->_CI->uri->segment(2)
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'content_edit_submit',
                     'content' => t('Edit content'),
@@ -472,6 +481,10 @@ class Appforms {
                     '#helpertext' => t('Type in a description of your menu. This will only be displayed in the administration')
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'menus_add',
                     'content' => t('Add menu'),
@@ -522,6 +535,10 @@ class Appforms {
                 array(
                     'type' => 'hidden',
                     'mid' => $this->_CI->uri->segment(4)
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
                 ),
                 array(
                     'type' => 'submit',
@@ -608,6 +625,10 @@ class Appforms {
                     'options' => menu_structure_as_strng_array($this->_CI->uri->segment(4))
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'menus_links_add_submit',
                     'content' => t('Add menu item'),
@@ -666,6 +687,10 @@ class Appforms {
                     'name' => 'parent',
                     'default_value' => set_value('parent', 0),
                     'options' => menu_structure_as_strng_array($this->_CI->uri->segment(4))
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
                 ),
                 array(
                     'type' => 'submit',
@@ -735,6 +760,10 @@ class Appforms {
                     'value' => set_value('content')
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'widgets_add_submit',
                     'content' => t('Save'),
@@ -778,6 +807,10 @@ class Appforms {
                     'value' => set_value('content')
                 ),
                 array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
                     'type' => 'submit',
                     'name' => 'widgets_edit_submit',
                     'content' => t('Save'),
@@ -811,6 +844,83 @@ class Appforms {
                 array(
                     'type' => 'link',
                     'href' => base_url().'admin/layout/widgets',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['users_add'] = array(
+            'name' => 'users_add',
+            '#permission' => 'admin_access_users_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'username',
+                    'placeholder' => t('Username'),
+                    'value' => set_value('username'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Username'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'name',
+                    'placeholder' => t('name'),
+                    'value' => set_value('name'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Name'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'password',
+                    'name' => 'password',
+                    'placeholder' => t('Password'),
+                    'value' => set_value('password'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Password'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<legend><small>'.t('Choose user role').'</small></legend>'
+                ),
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'role',
+                    'default_value' => set_value('role', 4),
+                    'options' => user_roles_list()
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<small>'.t('The role you select here decides which permissions will be assigned to the user').'</small>'
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'users_add_submit',
+                    'content' => t('Add user'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/users',
                     'value' => t('Cancel'),
                     '#attr' => 'class="btn btn-sm btn-default"',
                     'wrapper' => false
@@ -888,6 +998,35 @@ class Appforms {
             array(
                 'field' => 'title',
                 'label' => t('Title'),
+                'rules' => 'required|xss_clean'
+            ),
+            array(
+                'field' => 'link',
+                'label' => t('Destination'),
+                'rules' => 'required|xss_clean'
+            )
+        );
+        $this->_form_rules['users_add'] = array(
+            array(
+                'field' => 'username',
+                'label' => t('Username'),
+                'rules' => 'required|xss_clean|is_unique[users.username]'
+            ),
+            array(
+                'field' => 'password',
+                'label' => t('Password'),
+                'rules' => 'required|xss_clean'
+            ),
+            array(
+                'field' => 'password_again',
+                'label' => t('Confirm password'),
+                'rules' => 'required|xss_clean|matches[password]'
+            )
+        );
+        $this->_form_rules['users_edit'] = array(
+            array(
+                'field' => 'username',
+                'label' => t('Username'),
                 'rules' => 'required|xss_clean'
             ),
             array(

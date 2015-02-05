@@ -57,15 +57,37 @@ class User extends MY_Controller {
         $this->_language = $data->language;
         $this->_active = $data->active;
     }
-    public function index() {
-        //Check if the user is logged in
-        if($this->is_logged_in()) {
-            //if logged in show the user profile page
+    public function index($uid = NULL, $additional = NULL) {
+        if($this->uri->segment(1) == 'user' && is_numeric($this->uri->segment(2)) && !is_null($this->uri->segment(3))) {
+            switch ($this->uri->segment(3)) {
+                case 'edit':
+                    $this->edit($pid);
+                break;
+                case 'delete':
+                    $this->delete($pid);
+                break;
+                case 'enable':
+                    $this->enable($pid);
+                break;
+                case 'disable':
+                    $this->disable($pid);
+                break;
+                default:
+                    break;
+            }
         }
         else {
-            //if not logged in show the login form
-            $this->login();
+            //Check if the user is logged in
+            if($this->is_logged_in()) {
+                //if logged in show the user profile page
+                print 'you are logged in';
+            }
+            else {
+                //if not logged in show the login form
+                $this->login();
+            }
         }
+        
     }
     public function login() {
         if($_POST) {
@@ -148,6 +170,15 @@ class User extends MY_Controller {
         }
         return false;
     }
+    public function does_not_exist() {
+        if($this->user->exists($this->input->post('username'))) {
+            $this->form_validation->set_message('user_exists', t('The %s does already exist'));
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     public function is_logged_in() {
         if($this->session->userdata('logged_in')) {
             return true;
@@ -155,5 +186,83 @@ class User extends MY_Controller {
         else {
             return false;
         }
+    }
+    public function add() {
+        if($this->user->is_logged_in()) {
+            if($_POST) {
+                $this->_add_submit();
+            }
+            $this->config->config['force_admin_theme'] = TRUE;
+            //Renders the add user form
+            $this->load->model('mdl_admin_users', 'node');
+            $data = new stdClass();
+            $data->head_title = t('User Management');
+            $data->title = t('Add user');
+            $data = $this->node->prepare('users_add', $data);
+            $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
+        }
+        else {
+            show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
+        }
+    }
+    private function _add_submit() {
+        $this->load->library('form_validation');
+        //Set validation rules
+        $this->form_validation->set_rules($this->appforms->getValidationRules('users_add'));
+        if($this->form_validation->run($this)) {
+            $postdata = $this->input->post(NULL, TRUE);
+            unset($postdata['users_add_submit']);
+            //Check permission and log the user in
+            if($this->db->insert('users', $postdata)) {
+                set_message(t('The new user <i>%user</i> has been created', array('%user' => $postdata['username'])), 'success');
+            }
+            else {
+                set_message(t('The new user could not be created. Please see the error log for details'), 'error');
+            }
+        }
+    }
+    public function edit() {
+        if($this->user->is_logged_in()) {
+            if($_POST) {
+                $this->_edit_submit();
+            }
+            $_POST = $this->db->get_where('users', array('uid' => $this->uri->segment(2)))->result_array();
+            $this->config->config['force_admin_theme'] = TRUE;
+            //Renders the add user form
+            $this->load->model('mdl_admin_users', 'node');
+            $data = new stdClass();
+            $data->head_title = t('User Management');
+            $data->title = t('Edit user');
+            $data = $this->node->prepare('users_add', $data);
+            $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
+        }
+        else {
+            show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
+        }
+    }
+    private function _edit_submit() {
+        $this->load->library('form_validation');
+        //Set validation rules
+        $this->form_validation->set_rules($this->appforms->getValidationRules('users_edit'));
+        if($this->form_validation->run($this)) {
+            $postdata = $this->input->post(NULL, TRUE);
+            unset($postdata['users_add_submit']);
+            //Check permission and log the user in
+            if($this->db->insert('users', $postdata)) {
+                set_message(t('The user <i>%user</i> has been updated', array('%user' => $postdata['username'])), 'success');
+            }
+            else {
+                set_message(t('The user could not be updated. Please see the error log for details'), 'error');
+            }
+        }
+    }
+    public function delete() {
+        
+    }
+    public function enable() {
+        
+    }
+    public function disable() {
+        
     }
 }

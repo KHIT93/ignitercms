@@ -16,10 +16,10 @@ class Mdl_Admin_Content extends Mdl_Admin {
                 . '<thead>'
                 . '<tr>'
                 . '<th>'.t('Title').'</th>'
-                . '<th>'.t('Author').'</th>'
-                . '<th>'.t('Status').'</th>'
+                . '<th class="hidden-xs">'.t('Author').'</th>'
+                . '<th class="hidden-xs">'.t('Status').'</th>'
                 . '<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>'.t('Last modified').'</th>'
-                . '<th></th>'
+                . '<th>'.t('Actions').'</th>'
                 . '</tr>'
                 . '</thead>';
         $output .= '<tbody>';
@@ -28,10 +28,10 @@ class Mdl_Admin_Content extends Mdl_Admin {
                     . '<td>'
                     . anchor(base_url().'content/'.$node->pid, $node->title)
                     . '</td>'
-                    . '<td>'
+                    . '<td class="hidden-xs">'
                     . $node->author
                     . '</td>'
-                    . '<td>'
+                    . '<td class="hidden-xs">'
                     . $node->status
                     . '</td>'
                     . '<td>'
