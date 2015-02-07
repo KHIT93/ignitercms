@@ -14,3 +14,4 @@ application/logs/*
 */cache/*
 */cache/!index.html
 */cache/!.htaccess
+/cms3/nbproject/private/

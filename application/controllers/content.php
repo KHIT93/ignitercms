@@ -109,6 +109,9 @@ class Content extends MY_Controller {
                 $data = $this->node->prepare('content_edit', $data);
                 $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
             }
+            else {
+                show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
+            }
         }
         private function _edit_submit() {
             $this->load->library('form_validation');
@@ -143,17 +146,22 @@ class Content extends MY_Controller {
             }
         }
         public function delete($page_id) {
-            if(isset($_POST['content_delete_submit'])) {
-                $this->_delete_submit();
+            if($this->user->is_logged_in()) {
+                if(isset($_POST['content_delete_submit'])) {
+                    $this->_delete_submit();
+                }
+                $this->config->config['force_admin_theme'] = TRUE;
+                //Renders the delete content confirmation page
+                $this->load->model('mdl_admin_content', 'node');
+                $data = new stdClass();
+                $data->head_title = t('Content Management');
+                $data->title = t('Delete <i>%page</i>', array('%page' => $this->db->select('title')->from('pages')->where('pid', $this->uri->segment(2))->get()->result()[0]->title));
+                $data = $this->node->prepare('content_delete', $data);
+                $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
             }
-            $this->config->config['force_admin_theme'] = TRUE;
-            //Renders the delete content confirmation page
-            $this->load->model('mdl_admin_content', 'node');
-            $data = new stdClass();
-            $data->head_title = t('Content Management');
-            $data->title = t('Delete <i>%page</i>', array('%page' => $this->db->select('title')->from('pages')->where('pid', $this->uri->segment(2))->get()->result()[0]->title));
-            $data = $this->node->prepare('content_delete', $data);
-            $this->load->view($this->theme->tpl_path('base', $this->configuration->get('admin_theme')).'/base.tpl.php', $data);
+            else {
+                show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
+            }
         }
         private function _delete_submit() {
             $this->load->library('form_validation');

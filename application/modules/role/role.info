@@ -1,0 +1,5 @@
+name = Roles management
+description = Allows management of user roles
+dependencies[] = system
+dependencies[] = user
+config = admin/users/roles

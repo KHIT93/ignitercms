@@ -5,4 +5,7 @@ class MY_Form_validation extends CI_Form_validation {
         (is_object($module)) AND $this->CI = &$module;
         return parent::run($group);
     }
+    function plain_text($string) {
+        return textile_sanitize($string);
+    }
 }

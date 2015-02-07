@@ -106,7 +106,8 @@ if(!function_exists('check_plain')) {
  */
 if(!function_exists('set_message')) {
     function set_message($message, $type) {
-        
+        $CI =& get_instance();
+        $CI->session->set_userdata();
     }
 }
 // ------------------------------------------------------------------------
@@ -136,6 +137,34 @@ if ( ! function_exists('set_db_form_value'))
                     ->where($where)
                     ->get()->result()[0]->{$field};
         }
+    }
+}
+// ------------------------------------------------------------------------
+
+/**
+ * Filter input based on a whitelist. This filter strips out all characters that
+ * are NOT: 
+ * - letters
+ * - numbers
+ * - Textile Markup special characters.
+ * 
+ * Textile markup special characters are:
+ * _-.*#;:|!"+%{}@
+ * 
+ * This filter will also pass cyrillic characters, and characters like é and ë.
+ * 
+ * Typical usage:
+ * $string = '_ - . * # ; : | ! " + % { } @ abcdefgABCDEFG12345 éüртхцчшщъыэюьЁуфҐ ' . "\nAnd another line!";
+ * echo textile_sanitize($string);
+ * 
+ * @param string $string
+ * @return string The sanitized string
+ * @author Joost van Veen
+ */
+if(!function_exists('textile_sanitize')) {
+    function textile_sanitize($string){
+        $whitelist = '/[^a-zA-Z0-9а-яА-ЯéüртхцчшщъыэюьЁуфҐ \.\*\+\\n|#;:!"%@{} _-]/';
+        return preg_replace($whitelist, '', $string);
     }
 }
 // ------------------------------------------------------------------------

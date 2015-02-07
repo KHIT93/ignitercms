@@ -33,23 +33,114 @@ class Mdl_Admin_Users extends Mdl_Admin {
                     . '</td>'
                     . '</tr>';
         }
-        $output .= $this->_user_tabs_close();
         $output .= '</tbody>'
                 . '</table>';
+        $output .= $this->_user_tabs_close();
         return $output;
     }
     protected function _prepare_admin_users_add() {
         $form = $this->load->library('form', $this->appforms->getForm('users_add'))->render();
         return $form;
     }
-    protected function _prepare_admin_users_add_submit() {
-        
-    }
     protected function _prepare_admin_users_roles() {
-        
+        $data = $this->db->get('roles')->result();
+        $output = $this->_user_tabs();
+        $output .= validation_errors();
+        $output .= form_open('', array('name' => 'users_roles_add'));
+        $output .= '<table class="table table-striped table-bordered table-hover">'
+                . '<thead>'
+                . '<tr>'
+                . '<th>'.t('Name').'</th>'
+                . '<th>'.t('Actions').'</th>'
+                . '</tr>'
+                . '</thead>'
+                . '<tbody>';
+        foreach ($data as $role) {
+            $output .= '<tr>'
+                    . '<td>'.$role->name.'</td>'
+                    . '<td style="text-align:right;">'
+                    . anchor(base_url().'user/roles/'.$role->rid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
+                    . anchor(base_url().'user/roles/'.$role->rid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' '
+                    . '</td>'
+                    . '</tr>';
+        }
+        $output .= '<tr>'
+                . '<td>'.form_input(array('name' => 'name', 'placeholder' => t('Role name'), 'class' => 'form-control')).'</td>'
+                . '<td style="text-align:right;">'.form_button(array('type' => 'submit', 'name' => 'users_roles_add_submit', 'content' => t('Add role'), 'class' => 'btn btn-sm btn-primary')).'</td>'
+                . '</tr>';
+        $output .= '</tbody>'
+                . '</table>';
+        $output .= form_close();
+        $output .= $this->_user_tabs_close();
+        return $output;
+    }
+    private function _prepare_admin_users_roles_submit() {
+        $this->load->library('form_validation');
+        //Set validation rules
+        $this->form_validation->set_rules($this->appforms->getValidationRules('users_roles_add'));
+        if($this->form_validation->run($this)) {
+            $postdata = $this->input->post(NULL, TRUE);
+            unset($postdata['users_roles_add_submit']);
+            //Check permission and log the user in
+            if($this->db->insert('roles', $postdata)) {
+                set_message(t('The new user role <i>%role</i> has been created', array('%role' => $postdata['name'])), 'success');
+            }
+            else {
+                set_message(t('The new user role could not be created. Please see the error log for details'), 'error');
+            }
+        }
     }
     protected function _prepare_admin_users_permissions() {
-        
+        if($_POST) {
+            $this->_prepare_admin_users_permissions_submit();
+        }
+        $data = Modules::run('permission/_get_all');
+        $roles = Modules::run('role/_get_all');
+        $output = $this->_user_tabs();
+        $output .= validation_errors();
+        $output .= form_open('', array('name' => 'users_permissions'));
+        $output .= '<table class="table table-striped table-bordered table-hover">'
+                . '<thead>'
+                . '<tr>'
+                . '<th>'.t('Permission').'</th>';
+        foreach ($roles as $role) {
+            $output .= '<th><strong>'.ucfirst(t($role->name)).'</strong></th>';
+        }
+        $output .= '</tr>'
+                . '</thead>'
+                . '<tbody>';;
+        foreach ($data as $permission) {
+            $output .= '<tr>'
+                    . '<td>'.$permission->name.'<br/>'
+                    . '<small>'.$permission->description.'</small>'
+                    . '</td>';
+            foreach ($roles as $role) {
+                $output .= '<td style="text-align:center;">'.form_checkbox(array('name' => $permission->permission.'[]', 'value' => $role->rid, 'checked' => ((in_array($role->rid, explode(';', $permission->rid))) ? true : false))).'</td>';
+            }
+            $output .= '</tr>';
+        }
+        $output .= '</tbody>'
+                . '</table>';
+        $output .= form_button(array('type' => 'submit', 'name' => 'users_permissions_edit_submit', 'content' => t('Save changes'), 'class' => 'btn btn-sm btn-primary'));
+        $output .= form_close();
+        $output .= $this->_user_tabs_close();
+        return $output;
+    }
+    protected function _prepare_admin_users_permissions_submit() {
+        $data = $this->input->post(NULL, TRUE);
+        $update_batch = array();
+        foreach ($data as $permission => $roles) {
+            $update_batch[] = array(
+                'permission' => $permission,
+                'rid' => ((is_array($roles) ? implode(';', $roles) : $roles))
+            );
+        }
+        if($this->db->update_batch('permissions', $update_batch, 'permission')) {
+            set_message(t('Permissions were successfully updated'), 'success');
+        }
+        else {
+            set_message(t('Permissions could not be correctly updated. Please see the error log for details'), 'error');
+        }
     }
     private function _user_tabs() {
         $output = '<div class="tabbable">'

@@ -40,6 +40,11 @@
 
 $route['default_controller'] = "content";
 $route['404_override'] = 'content';
+$route['user/(:num)/edit'] = "user/edit/$1";
+$route['user/(:num)/delete'] = "user/delete/$1";
+$route['user/(:num)/disable'] = "user/disable/$1";
+$route['user/(:num)/enable'] = "user/enable/$1";
+$route['user/(:num)/password'] = "user/change_password/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -9,3 +9,10 @@ if(!function_exists('user_roles_radio')) {
         return $data;
     }
 }
+if(!function_exists('set_user_role_id')) {
+    function set_user_role_id() {
+        $CI =& get_instance();
+        $data = $CI->db->select('role')->from('users')->where('uid', $CI->uri->segment(2))->get()->result()[0]->role;
+        return $data;
+    }
+}

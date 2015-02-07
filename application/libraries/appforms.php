@@ -870,7 +870,7 @@ class Appforms {
                 array(
                     'type' => 'text',
                     'name' => 'name',
-                    'placeholder' => t('name'),
+                    'placeholder' => t('Name'),
                     'value' => set_value('name'),
                     'class' => 'form-control',
                     'label' => array(
@@ -884,10 +884,21 @@ class Appforms {
                     'type' => 'password',
                     'name' => 'password',
                     'placeholder' => t('Password'),
-                    'value' => set_value('password'),
                     'class' => 'form-control',
                     'label' => array(
                         'title' => t('Password'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'password',
+                    'name' => 'confirm_password',
+                    'placeholder' => t('Confirm Password'),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Confirm Password'),
                         '#attr' => array(
                             'class' => 'col-sm-3 control-label no-padding-left'
                         )
@@ -900,12 +911,16 @@ class Appforms {
                 array(
                     'type' => 'dropdown',
                     'name' => 'role',
-                    'default_value' => set_value('role', 4),
+                    'default_value' => ((is_numeric($this->_CI->uri->segment(2))) ? set_user_role_id() : 4),
                     'options' => user_roles_list()
                 ),
                 array(
                     'type' => 'markup',
                     'value' => '<small>'.t('The role you select here decides which permissions will be assigned to the user').'</small>'
+                ),
+                array(
+                    'type' => 'hidden',
+                    'uid' => set_value('uid')
                 ),
                 array(
                     'type' => 'markup',
@@ -1033,6 +1048,13 @@ class Appforms {
                 'field' => 'link',
                 'label' => t('Destination'),
                 'rules' => 'required|xss_clean'
+            )
+        );
+        $this->_form_rules['users_edit'] = array(
+            array(
+                'field' => 'username',
+                'label' => t('Username'),
+                'rules' => 'required|xss_clean|is_unique[roles.name]'
             )
         );
     }

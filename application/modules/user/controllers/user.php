@@ -57,7 +57,7 @@ class User extends MY_Controller {
         $this->_language = $data->language;
         $this->_active = $data->active;
     }
-    public function index($uid = NULL, $additional = NULL) {
+    public function index($uid = NULL) {
         if($this->uri->segment(1) == 'user' && is_numeric($this->uri->segment(2)) && !is_null($this->uri->segment(3))) {
             switch ($this->uri->segment(3)) {
                 case 'edit':
@@ -226,7 +226,7 @@ class User extends MY_Controller {
             if($_POST) {
                 $this->_edit_submit();
             }
-            $_POST = $this->db->get_where('users', array('uid' => $this->uri->segment(2)))->result_array();
+            $_POST = $this->db->get_where('users', array('uid' => $this->uri->segment(2)))->result_array()[0];
             $this->config->config['force_admin_theme'] = TRUE;
             //Renders the add user form
             $this->load->model('mdl_admin_users', 'node');

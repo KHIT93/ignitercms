@@ -221,13 +221,38 @@ class Admin extends MY_Controller {
             $data = $this->node->prepare('modules', $data);
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
-        public function users() {
+        public function users($area = NULL) {
             $this->load->model('mdl_admin_users', 'node');
             $data = new stdClass();
-            $data->head_title = t('User Management');
-            $data->title = t('Users');
-            $data = $this->node->prepare('users', $data);
+            if($area) {
+                switch ($area) {
+                    case 'roles':
+                        $data = $this->_users_roles();
+                    break;
+                    case 'permissions':
+                        $data = $this->_users_permissions();
+                    break;
+                    default:
+                        show_404();
+                        break;
+                }
+            }
+            else {
+                $data->head_title = t('User Management');
+                $data->title = t('Users');
+                $data = $this->node->prepare('users', $data);
+            }
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
+        }
+        private function _users_roles() {
+            $data = new stdClass();
+            $data->title = t('User roles');
+            return $this->node->prepare('users_roles', $data);
+        }
+        private function _users_permissions() {
+            $data = new stdClass();
+            $data->title = t('Permissions');
+            return $this->node->prepare('users_permissions', $data);
         }
         public function settings() {
             $this->load->model('mdl_admin_settings', 'node');
