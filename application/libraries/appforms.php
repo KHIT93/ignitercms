@@ -992,7 +992,7 @@ class Appforms {
                 ),
                 array(
                     'type' => 'submit',
-                    'name' => 'users_add_submit',
+                    'name' => 'settings_general_submit',
                     'content' => t('Save changes'),
                     'class' => 'btn btn-sm btn-primary',
                     'wrapper' => false
@@ -1006,7 +1006,51 @@ class Appforms {
                 )
             )
         );
-        
+        $this->_forms['settings_translate'] = array(
+            'name' => 'settings_translate',
+            '#permission' => 'access_admin_settings_translate',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'string',
+                    'value' => xss_clean(set_value('string')),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('String'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    'readonly' => true
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'translation',
+                    'value' => xss_clean(set_value('translation')),
+                    'class' => 'form-control',
+                    'label' => array(
+                        'title' => t('Translation'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'settings_translate_submit',
+                    'content' => t('Save changes'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/settings/translate',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
         //Form validation rules
         $this->_form_rules['admin_login'] = array(
             array(

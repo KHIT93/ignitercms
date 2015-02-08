@@ -293,7 +293,8 @@ class Admin extends MY_Controller {
             $data->title = t('Permissions');
             return $this->node->prepare('users_permissions', $data);
         }
-        public function settings($option = NULL) {
+        public function settings() {
+            $option = $this->uri->segment(3);
             if(!$this->user->is_logged_in()) {
                 show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
             }

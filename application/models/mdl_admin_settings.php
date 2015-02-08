@@ -107,8 +107,36 @@ class Mdl_Admin_Settings extends Mdl_Admin {
         $this->_data->title = t('General options');
         $output = array(
             'content' => '',
-            'form' => $form = $this->load->library('form', $this->appforms->getForm('settings_general'))->render()
+            'form' => $this->load->library('form', $this->appforms->getForm('settings_general'))->render()
         );
         return $this->load->view('view_admin_settings_general', $output, TRUE);
+    }
+    
+    protected function _prepare_admin_settings_translate() {
+        $tid = $this->uri->segment(4);
+        if(is_numeric($tid)) {
+            //This is the editing page for translations
+            if(count($_POST)) {
+                $this->db->where('tid', $tid);
+                if($this->db->update('translation', array('translation' => $this->input->post('translation', TRUE)))) {
+                    set_message (t('Translation has been updated'), 'success');
+                }
+                else {
+                    set_message(t('Translation was not updated. Please see the error log for details'), 'error');
+                }
+                redirect(base_url().'admin/settings/translate');
+            }
+            $data = $this->db->get_where('translation', array('tid' => $tid))->result_array()[0];
+            $_POST = array(
+                'string' => $data['string'],
+                'translation' => $data['translation']
+            );
+            $output = array('form' => $this->load->library('form', $this->appforms->getForm('settings_translate'))->render());
+            return $this->load->view('view_admin_settings_translate', $output, TRUE);
+        }
+        else {
+            //list all strings in the translations table for the current language
+            return $this->load->view('view_admin_settings_translate_list', array('translations' => $this->db->get_where('translation', array('language' => $this->configuration->get('site_language')))->result()), TRUE);
+        }
     }
 }
