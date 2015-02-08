@@ -1,0 +1,4 @@
+name = SEO Metatags
+description = Extends the the core SEO functionality with support for open-graph etc.
+dependencies[] = system
+config = admin/layout/widgets

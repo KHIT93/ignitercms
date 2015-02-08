@@ -80,6 +80,9 @@ class Admin extends MY_Controller {
             }
         }
         public function dashboard() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin', 'node');
             $data = new stdClass();
             $data->head_title = t('Administration');
@@ -88,6 +91,9 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function content() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_content', 'node');
             $data = new stdClass();
             $data->head_title = t('Content Management');
@@ -96,6 +102,9 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function layout($area = NULL) {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_layout', 'node');
             $data = new stdClass();
             if($area) {
@@ -124,14 +133,23 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function layout_menu() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data->head_title = t('Administration');
             $data->title = t('Layout');
             $data = $this->node->prepare('layout', $data);
         }
         public function content_types() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             
         }
         public function menus() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data = new stdClass();
             $data->head_title = t('Menus');
             $data->title = t('Menus');
@@ -163,6 +181,9 @@ class Admin extends MY_Controller {
             }
         }
         private function _menu_links($data) {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $link_action = $this->uri->segment(6);
             if($link_action == 'add') {
                 return $this->node->prepare('layout_menus_links_add', $data);
@@ -183,6 +204,9 @@ class Admin extends MY_Controller {
             }
         }
         public function themes() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data = new stdClass();
             $data->head_title = t('Theme management');
             $data->title = t('Themes');
@@ -190,6 +214,9 @@ class Admin extends MY_Controller {
             
         }
         public function widgets() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data = new stdClass();
             $data->title = t('Widgets');
             $area = $this->uri->segment(4);
@@ -215,6 +242,9 @@ class Admin extends MY_Controller {
             }
         }
         public function modules() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_modules', 'node');
             $data = new stdClass();
             $data->title = t('Modules');
@@ -222,6 +252,9 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function users($area = NULL) {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_users', 'node');
             $data = new stdClass();
             if($area) {
@@ -245,23 +278,35 @@ class Admin extends MY_Controller {
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         private function _users_roles() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data = new stdClass();
             $data->title = t('User roles');
             return $this->node->prepare('users_roles', $data);
         }
         private function _users_permissions() {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $data = new stdClass();
             $data->title = t('Permissions');
             return $this->node->prepare('users_permissions', $data);
         }
-        public function settings() {
+        public function settings($option = NULL) {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_settings', 'node');
             $data = new stdClass();
             $data->title = t('Settings');
-            $data = $this->node->prepare('settings', $data);
+            $data = $this->node->prepare('settings'.(($option) ? '_'.$option : ''), $data);
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function reports($report = NULL) {
+            if(!$this->user->is_logged_in()) {
+                show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
+            }
             $this->load->model('mdl_admin_reports', 'node');
             $data = new stdClass();
             $data->title = t('Reports');

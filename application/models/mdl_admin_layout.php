@@ -41,32 +41,9 @@ class Mdl_Admin_Layout extends Mdl_Admin {
         //To do
     }
     protected function _prepare_admin_layout_menus() {
-        $data = $this->db->get('menus')->result();
-        $output = anchor(base_url().'admin/layout/menus/add', '<i class="ace-icon fa fa-plus"></i>'.t('Add menu'), 'class="btn btn-sm btn-info"')
-                . '<div class="hr hr-18 dotted"></div>';
-        $output .= '<table class="table table-striped table-bordered table-hover">'
-                . '<thead>'
-                . '<tr>'
-                . '<th>'.t('Name').'</th>'
-                . '<th class="hidden-xs">'.t('Description').'</th>'
-                . '<th>'.t('Actions').'</th>'
-                . '</tr>'
-                . '</thead>'
-                . '<tbody>';
-        foreach ($data as $menu) {
-            $output .= '<tr>'
-                    . '<td>'.anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links', $menu->name).'</td>'
-                    . '<td class="hidden-xs">'.$menu->description.'</td>'
-                    . '<td style="text-align:right;">'
-                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
-                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links', t('View links'), 'class="btn btn-xs btn-info"').' '
-                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' '
-                    . '</td>'
-                    . '</tr>';
-        }
-        $output .= '</tbody>'
-                . '</table>';
-        return $output;
+        $output['data'] = $this->db->get('menus')->result();
+        
+        return $this->load->view('view_admin_layout_menus', $output, TRUE);
     }
     protected function _prepare_admin_layout_menus_add() {
         if($_POST) {
@@ -110,29 +87,9 @@ class Mdl_Admin_Layout extends Mdl_Admin {
         }
     }
     protected function _prepare_admin_layout_menus_links() {
-        $data = $this->db->select('*')->from('menu_links')->where('mid', $this->uri->segment(4))->get()->result();
-        $output = anchor(base_url().'admin/layout/menus/'.$this->uri->segment(4).'/links/add', '<i class="ace-icon fa fa-plus"></i>'.t('Add menu link'), 'class="btn btn-sm btn-info"')
-                . '<div class="hr hr-18 dotted"></div>';
-        $output .= '<table class="table table-striped table-bordered table-hover">'
-                . '<thead>'
-                . '<tr>'
-                . '<th>'.t('Title').'</th>'
-                . '<th>'.t('Actions').'</th>'
-                . '</tr>'
-                . '</thead>'
-                . '<tbody>';
-        foreach ($data as $menu) {
-            $output .= '<tr>'
-                    . '<td>'.anchor(base_url().$menu->link, $menu->title).'</td>'
-                    . '<td style="text-align:right;">'
-                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links/'.$menu->mlid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
-                    . anchor(base_url().'admin/layout/menus/'.$menu->mid.'/links/'.$menu->mlid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' '
-                    . '</td>'
-                    . '</tr>';
-        }
-        $output .= '</tbody>'
-                . '</table>';
-        return $output;
+        $output['data'] = $this->db->select('*')->from('menu_links')->where('mid', $this->uri->segment(4))->get()->result();
+        
+        return $this->load->view('view_admin_layout_menus_links', $output, TRUE);
     }
     protected function _prepare_admin_layout_menus_links_add() {
         if($_POST) {
@@ -236,34 +193,7 @@ class Mdl_Admin_Layout extends Mdl_Admin {
                 $data[$folder] = 'site/themes/'.$folder.'/'.$folder.'.info';
             }
         }
-        $output = '<table class="table table-striped table-bordered table-hover">'
-                . '<thead>'
-                . '<tr>'
-                . '<th></th>'
-                . '<th></th>'
-                . '</tr>'
-                . '</thead>'
-                . '<tobdy>';
-        foreach ($data as $folder => $info_file) {
-            $info_data = parse_info_file($info_file);
-            $output .= '<tr>';
-            $output .= '<td>'
-                    . '<img src="'.$info_data['screenshot'].'">'
-                    . '</td>'
-                    . '<td>'
-                    . heading($info_data['name'], 4)
-                    . '<p>'.$info_data['description'].'</p>'
-                    . '</td>'
-                    . '</tr>';
-            $output .= '<tr>'
-                    . '<td colspan="2">'
-                    . anchor(base_url().'admin/themes/'.$folder.'/apply', t('Apply theme'), 'class="btn btn-xs btn-default"')
-                    . '</td>'
-                    . '</tr>';
-        }
-        $output .= '</tbody>'
-                . '</table>';
-        return $output;
+        return $this->load->view('view_admin_layout_themes', array('data' => $data), TRUE);
     }
     protected function _prepare_admin_layout_widgets() {
         if($_POST) {
@@ -330,15 +260,7 @@ class Mdl_Admin_Layout extends Mdl_Admin {
         $output = '';
         if(count($data) > 0) {
             foreach ($data as $key => $widget) {
-                $output .= '<tr>'
-                        . '<td style="padding-left: 2em;">'.$widget->title.'</td>'
-                        . '<td style="text-align:center;">'.form_hidden(array('wid['.$widget->wid.']' => $widget->wid))
-                        . form_dropdown('section['.$widget->wid.']', parse_info_file($this->theme->path_to_specifc_theme($this->configuration->get('site_theme')).'/'.$this->configuration->get('site_theme').'.info')['sections'], $widget->section).'</td>'
-                        . '<td style="text-align:right;">'
-                        . anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/edit', t('Edit'), 'class="btn btn-xs btn-default"').' '
-                        . (($widget->type == 'simple') ? anchor(base_url().'admin/layout/widgets/'.$widget->wid.'/delete', t('Delete'), 'class="btn btn-xs btn-danger"').' ' : '')
-                        . '</td>'
-                        . '</tr>';
+                $output .= $this->load->view('view_admin_layout_widgets_section',array('widget' => $widget), TRUE);
                 unset($data[$key]);
             }
             foreach ($data as $widget) {
@@ -346,11 +268,7 @@ class Mdl_Admin_Layout extends Mdl_Admin {
             }
         }
         else {
-            $output .= '<tr>'
-                    . '<td colspan="3" style="text-align:center;">'
-                    . t('There are no widgets in this section')
-                    . '</td>'
-                    . '</tr>';
+            $output .= $this->load->view('view_admin_layout_widgets_section_no_widgets', array(), TRUE);
         }
         return $output;
     }

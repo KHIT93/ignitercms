@@ -942,6 +942,70 @@ class Appforms {
                 )
             )
         );
+        $this->_forms['settings_general'] = array(
+            'name' => 'settings_general',
+            '#permission' => 'access_admin_settings_general',
+            '#elements' => array(
+                array(
+                    'type' => 'fieldset',
+                    'title' => t('Site information'),
+                    '#elements' => array(
+                        array(
+                            'type' => 'text',
+                            'name' => 'site_name',
+                            'class' => 'form-control',
+                            'placeholder' => 'My site name',
+                            'value' => set_value('site_name'),
+                            'label' => array(
+                                'title' => t('Site name'),
+                                '#attr' => array(
+                                    'class' => 'col-sm-3 control-label no-padding-left'
+                                )
+                            )
+                        ),
+                        array(
+                            'type' => 'text',
+                            'name' => 'site_slogan',
+                            'class' => 'form-control',
+                            'placeholder' => 'Put something nice here',
+                            'value' => set_value('site_slogan'),
+                            'label' => array(
+                                'title' => t('Slogan'),
+                                '#attr' => array(
+                                    'class' => 'col-sm-3 control-label no-padding-left'
+                                )
+                            )
+                        ),
+                        array(
+                            'type' => 'text',
+                            'name' => 'site_home',
+                            'class' => 'form-control',
+                            'value' => set_value('site_home'),
+                            'label' => array(
+                                'title' => t('Home page'),
+                                '#attr' => array(
+                                    'class' => 'col-sm-3 control-label no-padding-left'
+                                )
+                            )
+                        ),
+                    )
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'users_add_submit',
+                    'content' => t('Save changes'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/settings',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
         
         //Form validation rules
         $this->_form_rules['admin_login'] = array(
