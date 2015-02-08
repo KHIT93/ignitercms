@@ -23,27 +23,27 @@
             <ul class="nav ace-nav">
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        Administrator
+                        <?php print Modules::run('user/_name'); ?>
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
                             <a href="<?php print base_url(); ?>admin/settings">
                                 <i class="ace-icon fa fa-cog"></i>
-                                Settings
+                                <?php print t('Settings'); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php print base_url(); ?>user">
                                 <i class="ace-icon fa fa-user"></i>
-                                Profile
+                                <?php print t('Profile'); ?>
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li>
                             <a href="<?php print base_url(); ?>user/logout">
                             <i class="ace-icon fa fa-power-off"></i>
-                            Logout
+                            <?php print t('Logout'); ?>
                             </a>
                         </li>
                     </ul>

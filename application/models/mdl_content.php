@@ -86,7 +86,7 @@ class Mdl_Content extends CI_Model {
         if($widget->section == 'content' && $widget->content == '{"func":"PAGE"}') {
             //load tpl to for rendering primary content
             $data['title'] = $this->_data->title;
-            $data['content'] = $this->_data->body;
+            $data['content'] = (isset($this->_data->body) ? $this->_data->body : $this->_data->content);
             return $this->load->view($this->theme->tpl_path('node').'/node.tpl.php', $data, true);
         }
         else {

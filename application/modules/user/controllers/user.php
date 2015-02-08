@@ -80,14 +80,22 @@ class User extends MY_Controller {
             //Check if the user is logged in
             if($this->is_logged_in()) {
                 //if logged in show the user profile page
-                print 'you are logged in';
+                $this->profile();
             }
             else {
                 //if not logged in show the login form
                 $this->login();
             }
         }
-        
+    }
+    public function profile() {
+        $data = new stdClass();
+        $data->head_title = t('User profile');
+        $data->title = $this->_name;
+        $data->content = $this->load->view('user', '', true);
+        $this->load->model('mdl_content', 'node');
+        $data = $this->node->prepare($data);
+        $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
     }
     public function login() {
         if($_POST) {
@@ -264,5 +272,11 @@ class User extends MY_Controller {
     }
     public function disable() {
         
+    }
+    public function _name() {
+        return $this->_name;
+    }
+    public function _uid() {
+        return $this->_uid;
     }
 }
