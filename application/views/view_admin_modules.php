@@ -1,4 +1,4 @@
-<?php print anchor(base_url().'admin/layout/modules/add', '<i class="ace-icon fa fa-plus"></i>'.t('Add module').' (Disabled)', 'class="btn btn-sm btn-info disabled"'); ?>
+<?php print anchor(base_url().'admin/modules/add', '<i class="ace-icon fa fa-plus"></i>'.t('Add module'), 'class="btn btn-sm btn-info"'); ?>
 <div class="hr hr-18 dotted"></div>
 <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -18,12 +18,12 @@
             <td style="text-align:right;">
             <?php $active = ($this->db->where('module', $mod)->count_all_results('modules') > 0) ? $this->db->select('active')->from('modules')->where('module', $mod)->get()->result()[0]->active : 0;
             if($active == 1) {
-                if(method_exists($this->{$mod}, 'config')) {
+                if(method_exists($this->{$mod}, '_config')) {
                     if(isset($data['config'])) {
-                        print anchor(base_url().$data['config'], t('Configure'), 'class="btn btn-xs btn-primary"').' ';
+                        print anchor(base_url().$data['config'], t('Configure'), 'class="btn btn-xs btn-primary"').'<br/><br/>';
                     }
                     else {
-                        print anchor(base_url().'admin/modules/'.$mod, t('Configure'), 'class="btn btn-xs btn-primary"').' ';
+                        print anchor(base_url().'admin/modules/'.$mod, t('Configure'), 'class="btn btn-xs btn-primary"').'<br/><br/>';
                     }
                 }
                 print anchor(base_url().'admin/modules/uninstall/'.$mod, t('Uninstall'), 'class="btn btn-xs btn-danger"');

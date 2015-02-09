@@ -14,7 +14,7 @@ class Form {
     }
     private function _prepare() {
         $form = '<div class="messages">'.validation_errors().'</div>';
-        $form .= form_open('', ((isset($this->_form['#attr'])) ? $this->_form['#attr'] : ''));
+        $form .= (isset($this->_form['#multipart']) && $this->_form['#multipart'] == TRUE) ? form_open_multipart('', ((isset($this->_form['#attr'])) ? $this->_form['#attr'] : '')): form_open('', ((isset($this->_form['#attr'])) ? $this->_form['#attr'] : ''));
         foreach ($this->_form['#elements'] as $element) {
             $form .= $this->_prepare_element($element);
         }
@@ -44,6 +44,9 @@ class Form {
                 unset($element['type']);
                 $output .= form_hidden($element);
                 $element['type'] = 'hidden';
+            }
+            else if($element['type'] == 'file') {
+                $output .= form_upload($element);
             }
             else if($element['type'] == 'password') {
                 $output .= form_password($element);

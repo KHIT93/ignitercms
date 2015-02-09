@@ -241,14 +241,15 @@ class Admin extends MY_Controller {
                 return $this->node->prepare('layout_widgets', $data);
             }
         }
-        public function modules() {
+        public function modules($module = NULL) {
             if(!$this->user->is_logged_in()) {
                 show_error(t('You are not autorized to view this page'), 403, t('Access Denied'));
             }
             $this->load->model('mdl_admin_modules', 'node');
             $data = new stdClass();
             $data->title = t('Modules');
-            $data = $this->node->prepare('modules', $data);
+            $data->module = $module;
+            $data = $this->node->prepare(((!is_null($module)) ? 'modules_config' : 'modules'), $data);
             $this->load->view($this->theme->tpl_path('base').'/base.tpl.php', $data);
         }
         public function users($area = NULL) {

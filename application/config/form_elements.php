@@ -17,7 +17,6 @@ $config['form_input'] = array(
     'datetime',
     'datetime-local',
     'email',
-    'file',
     'image',
     'month',
     'number',

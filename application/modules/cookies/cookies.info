@@ -1,0 +1,3 @@
+name = EU Cookie Compliance
+description = Adds the required informational dialogs to the website, as made clear by the EU Cookie Compliance policy
+dependencies[] = system
