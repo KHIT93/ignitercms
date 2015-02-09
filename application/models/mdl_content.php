@@ -34,6 +34,7 @@ class Mdl_Content extends CI_Model {
         $this->_data = $this->db->get()->result()[0]; //Get data from DB for requested page
     }
     protected function _prepare_head() {
+        $head[] = '<meta charset="utf-8">';
         $head[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
         $head[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
         return implode("\n\x20\x20\x20\x20", $head);
