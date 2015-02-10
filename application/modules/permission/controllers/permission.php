@@ -23,14 +23,25 @@ class Permission extends MY_Controller {
         return $this->db->get('permissions')->result();
     }
     
-    public function check($permission = NULL) {
+    public function _check($permission = NULL) {
         //Check if a user has the chosen permission
         if($permission) {
             $rid = explode(';', $this->db->select('rid')->from('permissions')->where('permission', $permission)->get()[0]);
-            return (in_array($this->user->rid(), $rid)) ? true : false;
+            return (in_array($this->user->_rid(), $rid)) ? true : false;
         }
         else {
-            return NULL;
+            return FALSE;
+        }
+    }
+    
+    public function _validate($permission = NULL) {
+        if($permission) {
+            if(!$this->_check($permission)) {
+                show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
+            }
+        }
+        else {
+            show_error(t('You are not authorized to view this page'), 403, t('Access Denied'));
         }
     }
     

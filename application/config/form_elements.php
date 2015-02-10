@@ -35,3 +35,11 @@ $config['form_button'] = array(
     'reset'
 );
 $config['valid_form_options'] = array();
+
+$config['valid_cron_intervals'] = array(
+    '3600' => '1 hour',
+    '10800' => '3 hours',
+    '21600' => '6 hours',
+    '43200' => '12 hours',
+    '86400' => '1 day'
+);

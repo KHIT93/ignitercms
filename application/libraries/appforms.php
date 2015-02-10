@@ -1051,6 +1051,30 @@ class Appforms {
                 )
             )
         );
+        $this->_forms['settings_cron_schedule'] = array(
+            'name' => 'settings_cron_schedule',
+            '#permission' => 'access_admin_cron_execute',
+            '#elements' => array(
+                array(
+                    'type' => 'dropdown',
+                    'name' => 'cron_interval',
+                    'default_value' => set_value('cron_interval', '10800'),
+                    'options' => config_item('valid_cron_intervals')
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'settings_cron_schedule_submit',
+                    'content' => t('Save changes'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                )
+            )
+        );
+        
         //Form validation rules
         $this->_form_rules['admin_login'] = array(
             array(

@@ -9,4 +9,13 @@ class MY_Controller extends MX_Controller {
             $this->load->module($module->module);
         }
     }
+    protected function _invoke($method = NULL) {
+        if($method) {
+            foreach ($this->db->select('module')->from('modules')->where('active', 1)->get()->result() as $module) {
+                if(method_exists($this->{$module->module}, $method)) {
+                    Modules::run($module->module.'/'.$method);
+                }
+            }
+        }
+    }
 }

@@ -10,6 +10,9 @@ class Mdl_Admin extends Mdl_Content {
             $this->_data = $data;
         }
         $method = '_prepare_admin_'.$area;
+        if(!method_exists($this, $method)) {
+            show_404();
+        }
         $this->_data->content = $this->$method();
         $this->_return['head_title'] = $this->_prepare_head_title();
         $this->_return['head'] = $this->_prepare_head()."\n";

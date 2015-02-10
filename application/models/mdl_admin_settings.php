@@ -112,6 +112,23 @@ class Mdl_Admin_Settings extends Mdl_Admin {
         return $this->load->view('view_admin_settings_general', $output, TRUE);
     }
     
+    protected function _prepare_admin_settings_cron() {
+        if(count($_POST)) {
+            $this->db->where('property', 'cron_interval');
+            if($this->db->update('config', array('contents' => $this->input->post('cron_interval', TRUE)))) {
+                set_message(t('Interval for execution of scheduled tasks has been changed'), 'success');
+            }
+            else {
+                set_message(t('Interval for execution of scheduled tasks could not be changed'), 'error');
+            }
+        }
+        $this->_data->title = t('Scheduled tasks');
+        $data = array(
+            'form' => $this->load->library('form', $this->appforms->getForm('settings_cron_schedule'))->render()
+        );
+        return $this->load->view('view_admin_settings_cron', $data, TRUE);
+    }
+    
     protected function _prepare_admin_settings_translate() {
         $tid = $this->uri->segment(4);
         if(is_numeric($tid)) {

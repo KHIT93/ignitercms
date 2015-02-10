@@ -1,0 +1,3 @@
+name = Scheduled tasks (Cron)
+description = This module manages scheduled tasks using either timestamp based execution on page request or server side cron tasks
+config = admin/settings/cron

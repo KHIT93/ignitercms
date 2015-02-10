@@ -279,4 +279,7 @@ class User extends MY_Controller {
     public function _uid() {
         return $this->_uid;
     }
+    public function _rid() {
+        return $this->_rid;
+    }
 }
