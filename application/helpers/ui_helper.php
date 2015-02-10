@@ -168,3 +168,17 @@ if(!function_exists('textile_sanitize')) {
     }
 }
 // ------------------------------------------------------------------------
+
+/**
+ * Checks whether or not a string is in JSON format
+ * 
+ * @param string $string
+ * @return string The sanitized string
+ */
+if(!function_exists('isJson')) {
+    function isJson($string) {
+        return !preg_match('/[^,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t]/',
+       preg_replace('/"(\\.|[^"\\\\])*"/', '', $string));
+    }
+}
+// ------------------------------------------------------------------------

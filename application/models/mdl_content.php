@@ -70,12 +70,14 @@ class Mdl_Content extends CI_Model {
         return $this->load->view($this->theme->tpl_path('page').'/page.tpl.php', array('page' => $sections, 'site_name' => $this->configuration->get('site_name'), 'breadcrumb' => breadcrumb((count($this->uri->segments)) ? $this->uri->segments: array(0 => $this->configuration->get('site_home')))), true);
     }
     protected function _prepare_page_section($section) {
-        $this->db->select('*')->from('widgets')->where('section', $section);
-        $rendered_section = array();
+        $this->db->select('*')->from('widgets')->where('section', $section)->order_by('position', 'ASC');
+        $rendered_section = array(
+            'widgets' => ''
+        );
         $widgets = $this->db->get()->result();
         if(count($widgets)) {
             foreach ($widgets as $widget) {
-                $rendered_section['widgets'] = $this->_prepare_page_section_widget($widget);
+                $rendered_section['widgets'] .= $this->_prepare_page_section_widget($widget);
             }
         }
         else {
@@ -91,8 +93,16 @@ class Mdl_Content extends CI_Model {
             return $this->load->view($this->theme->tpl_path('node').'/node.tpl.php', $data, true);
         }
         else {
+            //Determine if the widget has content that is rendered by a module
+            $widget_contents = $widget->content;
+            if(isJson($widget->content)) {
+                $widget_data = json_decode($widget->content, TRUE);
+                if(isset($widget_data['module'])) {
+                    $widget_contents = Modules::run($widget_data['module'].'/_widget');
+                }
+            }
             //load normal widget tpl file
-            return $this->load->view($this->theme->tpl_path('widget').'/widget.tpl.php', array('content' => $widget->content), true);
+            return $this->load->view($this->theme->tpl_path('widget').'/widget.tpl.php', array('content' => $widget_contents), true);
         }
     }
     protected function _prepare_scripts() {
