@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Mdl_Content extends CI_Model {
+class Mdl_Content extends MY_Model {
     protected $_data;
     protected $_return;
     protected $_theme_data;
@@ -37,6 +37,7 @@ class Mdl_Content extends CI_Model {
         $head[] = '<meta charset="utf-8">';
         $head[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
         $head[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
+        $this->_invoke('_head_alter', $head);
         return implode("\n\x20\x20\x20\x20", $head);
     }
     protected function _prepare_head_title() {
@@ -50,6 +51,7 @@ class Mdl_Content extends CI_Model {
                     $rendered_styles .= "\x20\x20\x20\x20".'<link href="'.base_url().$this->theme->path_to_theme().'/'.$data[$i].'" rel="stylesheet" type="text/css" media="'.$media.'">'."\n";
                 }
             }
+            $this->_invoke('_styles_alter', $rendered_styles);
         }
         else {
             $rendered_styles .= '';
@@ -117,6 +119,7 @@ class Mdl_Content extends CI_Model {
             if($this->config->config['load_wysiwyg'] == TRUE) {
                 $this->wysiwyg->implement($rendered_jscripts);
             }
+            $rendered_jscripts .= $this->_invoke('_scripts_alter', $rendered_jscripts);
         }
         else {
             $rendered_jscripts .= '';

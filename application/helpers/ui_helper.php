@@ -182,3 +182,31 @@ if(!function_exists('isJson')) {
     }
 }
 // ------------------------------------------------------------------------
+
+/**
+ * Generates a valid html stylesheet link
+ * 
+ * @param string $styles
+ * @param string $stylesheet
+ * @param string $media
+ */
+if(!function_exists('add_style')) {
+    function add_style(&$styles, $stylesheet, $media = 'screen') {
+        $styles .= '<link href="'.$stylesheet.'" rel="stylesheet" type="text/css" media="'.$media.'">'."\n";
+    }
+}
+// ------------------------------------------------------------------------
+
+/**
+ * Generates a valid html output for rendering JS
+ * 
+ * @param string $scripts
+ * @param string $script
+ * @param string $content
+ */
+if(!function_exists('add_script')) {
+    function add_script(&$scripts, $script, $content = '') {
+        $scripts .= '<script src="'.$script.'">'.$content.'</script>'."\n";
+    }
+}
+// ------------------------------------------------------------------------
