@@ -1074,6 +1074,82 @@ class Appforms {
                 )
             )
         );
+        $this->_forms['menus_links_add'] = array(
+            'name' => 'settings_redirect_add',
+            '#permission' => 'admin_access_settings_redirect_add',
+            '#elements' => array(
+                array(
+                    'type' => 'text',
+                    'name' => 'source',
+                    'class' => 'form-control',
+                    'value' => set_value('source'),
+                    'placeholder' => 'content/123',
+                    'label' => array(
+                        'title' => t('Source'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the system path for your content. This is normally content/123 where 123 is the ID of your page')
+                ),
+                array(
+                    'type' => 'text',
+                    'name' => 'alias',
+                    'class' => 'form-control',
+                    'value' => set_value('alias'),
+                    'placeholder' => 'my-custom-url',
+                    'label' => array(
+                        'title' => t('Destination'),
+                        '#attr' => array(
+                            'class' => 'col-sm-3 control-label no-padding-left'
+                        )
+                    ),
+                    '#helpertext' => t('Type in the destination address for your redirect')
+                ),
+                array(
+                    'type' => 'markup',
+                    'value' => '<hr>'
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'settings_redirect_add_submit',
+                    'content' => t('Add menu item'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/settings/redirect',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
+        $this->_forms['settings_redirect_delete'] = array(
+            'name' => 'settings_redirect_delete',
+            '#permission' => 'admin_access_settings_redirect_delete',
+            '#elements' => array(
+                array(
+                    'type' => 'hidden',
+                    'aid' => $this->_CI->uri->segment(5)
+                ),
+                array(
+                    'type' => 'submit',
+                    'name' => 'settings_redirect_submit',
+                    'content' => t('Delete'),
+                    'class' => 'btn btn-sm btn-primary',
+                    'wrapper' => false
+                ),
+                array(
+                    'type' => 'link',
+                    'href' => base_url().'admin/settings/redirect',
+                    'value' => t('Cancel'),
+                    '#attr' => 'class="btn btn-sm btn-default"',
+                    'wrapper' => false
+                )
+            )
+        );
         
         //Form validation rules
         $this->_form_rules['admin_login'] = array(

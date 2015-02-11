@@ -57,6 +57,11 @@ class Mdl_Admin_Settings extends Mdl_Admin {
                         'title' => t('Maintenance'),
                         'description' => t('Manage the maintenance setttings for the website'),
                         'link' => 'admin/settings/maintenance'
+                    ),
+                    array(
+                        'title' => t('Caching'),
+                        'description' => t('Manage caching for your website'),
+                        'link' => 'admin/settings/cache'
                     )
                 ),
                 'regional' => array(
@@ -112,6 +117,69 @@ class Mdl_Admin_Settings extends Mdl_Admin {
         return $this->load->view('view_admin_settings_general', $output, TRUE);
     }
     
+    protected function _prepare_admin_settings_redirect() {
+        $action = $this->uri->segment(5);
+        if(!is_null($action)) {
+            if($action == 'add') {
+                return $this->_prepare_admin_settings_redirect_add();
+            }
+            else if($action == 'edit') {
+                return $this->_prepare_admin_settings_redirect_edit();
+            }
+            else if($action == 'delete') {
+                return $this->_prepare_admin_settings_redirect_delete();
+            }
+        }
+        $this->_data->title = t('URL Redirects');
+        $data = array(
+            'redirects' => $this->db->get('url_alias')->result()
+        );
+        return $this->load->view('view_admin_settings_redirect', $data, TRUE);
+    }
+    
+    protected function _prepare_admin_settings_redirect_add() {
+        if(count($_POST)) {
+            $postdata = $this->input->post(NULL, TRUE);
+            unset($postdata['settings_redirect_add_submit']);
+            if($this->db->insert('url_alias', $postdata)) {
+                set_message(t('New redirect was added'), 'success');
+            }
+            else {
+                set_message(t('The new redirect could not be added'), 'error');
+            }
+        }
+        return $this->load->library('form', $this->appforms->getForm('settings_redirect_add'))->render();
+    }
+    
+    protected function _prepare_admin_settings_redirect_edit() {
+        if(count($_POST)) {
+            $postdata = $this->input->post(NULL, TRUE);
+            unset($postdata['settings_redirect_add_submit']);
+            $this->db->where('aid', $this->uri->segment(4));
+            if($this->db->update('url_alias', $postdata)) {
+                set_message(t('The redirect was updated'), 'success');
+            }
+            else {
+                set_message(t('The redirect could not be updated'), 'error');
+            }
+        }
+        $_POST = $this->db->get_where('url_alias', array('aid' => $this->uri->segment(5)))->result_array();
+        return $this->load->library('form', $this->appforms->getForm('settings_redirect_add'))->render();
+    }
+    
+    protected function _prepare_admin_settings_redirect_delete() {
+        if(count($_POST)) {
+            $this->db->where('aid', $this->uri->segment(4));
+            if($this->db->delete('url_alias')) {
+                set_message(t('The redirect was delted'), 'success');
+            }
+            else {
+                set_message(t('The redirect could not be deleted'), 'error');
+            }
+        }
+        return $this->load->library('form', $this->appforms->getForm('settings_redirect_delete'))->render();
+    }
+
     protected function _prepare_admin_settings_cron() {
         if(count($_POST)) {
             $this->db->where('property', 'cron_interval');
