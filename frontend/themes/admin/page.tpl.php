@@ -63,18 +63,18 @@
         </script>
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success">
-                    <i class="ace-icon fa fa-signal"></i>
-                </button>
-                <button class="btn btn-info">
+                <a class="btn btn-success" href="<?php print base_url(); ?>">
+                    <i class="ace-icon fa fa-home"></i>
+                </a>
+                <a class="btn btn-info">
                     <i class="ace-icon fa fa-pencil"></i>
-                </button>
-                <button class="btn btn-warning">
+                </a>
+                <a class="btn btn-warning">
                     <i class="ace-icon fa fa-users"></i>
-                </button>
-                <button class="btn btn-danger">
+                </a>
+                <a class="btn btn-danger" href="<?php print base_url().'admin/settings'; ?>">
                     <i class="ace-icon fa fa-cogs"></i>
-                </button>
+                </a>
             </div>
         </div>
         <?php print $page['sidebar_first']; ?>
@@ -90,11 +90,10 @@
             <?php print $page['content']; ?>
         </div>
     </div><!-- /.main-content -->
+    <hr>
     <div class="footer">
         <div class="footer-inner">
-            <div class="footer-content">
-                <?php print $page['footer']; ?>
-            </div>
+            <?php print $page['footer']; ?>
         </div>
     </div>
 </div>

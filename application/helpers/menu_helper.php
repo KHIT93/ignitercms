@@ -1,20 +1,21 @@
 <?php
-function traverse($array, $class = NULL, $toggle = false) {
+function traverse($array, $class = 'nav navbar-nav', $toggle = false) {
     $active = get_instance()->uri->uri_string;
     $str = '<ul class="'.$class.'">';
     foreach($array as $item) {
         if($active == $item['link']) {
-            $str .= '<li class="active"><a href="'.$item['link'].'"'.(isset($item['children'])&&$toggle==true?' class="dropdown-toggle" data-toggle="dropdown"':'').'>'.$item['title'].'</a>'.(isset($item['children'])&&$item['children']?traverse($item['children'], 'dropdown-menu'):'').'</li>';
+            $str .= '<li class="active'.((isset($item['children'])) ? ' dropdown' : '').'"><a href="'.$item['link'].'"'.(isset($item['children'])&&$toggle==true?' class="dropdown-toggle" data-toggle="dropdown" role="button"':'').'>'.$item['title'].'</a>'.(isset($item['children'])&&$item['children']?traverse($item['children'], 'dropdown-menu'):'').'</li>';
         }
         else {
-            $str .= '<li><a href="'.$item['link'].'"'.(isset($item['children'])&&$toggle==true?' class="dropdown-toggle" data-toggle="dropdown"':'').'>'.$item['title'].'</a>'.(isset($item['children'])&&$item['children']?traverse($item['children'], 'dropdown-menu'):'').'</li>';
+            $str .= '<li class="'.((isset($item['children'])) ? 'dropdown' : '').'"><a href="'.$item['link'].'"'.(isset($item['children'])&&$toggle==true?' class="dropdown-toggle" data-toggle="dropdown" role="button"':'').'>'.$item['title'].'</span></a>'.(isset($item['children'])&&$item['children']?traverse($item['children'], 'dropdown-menu'):'').'</li>';
         }
     }
     $str .= '</ul>';
     return $str;
 }
 function sidebar_traverse($array, $class = NULL, $toggle = false) {
-    $active = get_instance()->uri->uri_string;
+    $CI =& get_instance();
+    $active = base_url().$CI->uri->uri_string;
     $str = '<ul class="'.$class.'">';
     foreach($array as $item) {
         if($active == $item['link']) {
@@ -67,5 +68,21 @@ if(!function_exists('menu_structure_as_strng_array')) {
             $output[$item->mlid] = $item->title;
         }
         return $output;
+    }
+}
+if(!function_exists('array_to_menu')) {
+    function array_to_menu($array, $class = 'nav navbar-nav', $toggle = true) {
+        $menuitems = array();
+        foreach($array as $link) {
+            $menuitems[] = array('id' => $link['mlid'], 'title' => $link['title'], 'parent' => $link['parent'], 'link' => $link['link']);
+        }
+        $tmp = array(0 => array('title' => 'root', 'children'=>array()));
+        foreach($menuitems as $item) {
+            $tmp[$item['id']] = isset($tmp[$item['id']]) ? array_merge($tmp[$item['id']],$item) : $item;
+            $tmp[$item['parent']]['children'][] =& $tmp[$item['id']];
+        }
+        $db = NULL;
+        $root = $tmp[0]['children'];
+        return traverse($root, $class, $toggle);
     }
 }

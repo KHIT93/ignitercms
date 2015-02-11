@@ -15,7 +15,6 @@
     <?php
         print $page_top;
         print $page;
-        //krumo($page);
         print $page_bottom;
         print $scripts;
     ?>

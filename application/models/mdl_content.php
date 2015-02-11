@@ -24,7 +24,7 @@ class Mdl_Content extends CI_Model {
         $this->_return['page_top'] = '';
         $this->_return['page'] = $this->_prepare_page();
         $this->_return['page_bottom'] = '';
-        $this->_return['scripts'] = (isset($this->_theme_data['scripts'])) ? $this->_prepare_scripts(): '';
+        $this->_return['scripts'] = (isset($this->_theme_data['scripts'])) ? $this->_prepare_scripts(): $this->_mandatory_scripts();
         return $this->_return;
     }
     private function _prepare_data() {
@@ -99,6 +99,9 @@ class Mdl_Content extends CI_Model {
                 $widget_data = json_decode($widget->content, TRUE);
                 if(isset($widget_data['module'])) {
                     $widget_contents = Modules::run($widget_data['module'].'/_widget');
+                }
+                if(isset($widget_data['menu'])) {
+                    $widget_contents = array_to_menu($this->db->order_by('position asc, title asc')->get_where('menu_links', array('mid' => $widget_data['menu']))->result_array());
                 }
             }
             //load normal widget tpl file
